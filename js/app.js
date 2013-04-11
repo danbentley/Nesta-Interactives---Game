@@ -5,9 +5,13 @@ var dy = -4;
 var ctx;
 var WIDTH;
 var HEIGHT;
+var PADDLE_POSITION_OFFSET = {
+    x: 0,
+    y: -30
+};
 var paddlex;
 var paddleh = 10;
-var paddlew = 75;
+var paddlew = 110;
 var rightDown = false;
 var leftDown = false;
 var canvasMinX = 0;
