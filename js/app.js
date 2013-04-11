@@ -10,7 +10,7 @@ var PADDLE_POSITION_OFFSET = {
     y: -30
 };
 var paddlex;
-var paddleh = 10;
+var paddleh = 13;
 var paddlew = 110;
 var rightDown = false;
 var leftDown = false;
@@ -28,7 +28,7 @@ function init() {
   ctx = $('#canvas')[0].getContext("2d");
   WIDTH = $("#canvas").width();
   HEIGHT = $("#canvas").height();
-  paddlex = WIDTH / 2;
+  paddlex = (WIDTH - paddlew) / 2;
   BRICKWIDTH = (WIDTH/NCOLS) - 1;
   canvasMinX = $("#canvas").offset().left;
   canvasMaxX = canvasMinX + WIDTH;
