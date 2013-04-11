@@ -10,7 +10,7 @@ var PADDLE_POSITION_OFFSET = {
     y: -30
 };
 var paddlex;
-var paddleh = 10;
+var paddleh = 13;
 var paddlew = 110;
 var rightDown = false;
 var leftDown = false;
