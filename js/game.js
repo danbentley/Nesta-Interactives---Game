@@ -33,7 +33,7 @@ function draw() {
     updateBricks();
 
     // If the ball has hit the wall
-    if (ballPosition.x + tempBallPosition.x + ballRadius > WIDTH || ballPosition.x + tempBallPosition.x - ballRadius < 0) {
+    if (hasBallHitWall()) {
         tempBallPosition.x = -tempBallPosition.x;
     }
 
@@ -80,6 +80,11 @@ function drawPaddle() {
 
     // Draw paddle
     rect(paddlePosition.x, paddlePosition.y, paddlew, paddleh);
+}
+
+function hasBallHitWall() {
+    return (ballPosition.x + tempBallPosition.x + ballRadius > WIDTH 
+            || ballPosition.x + tempBallPosition.x - ballRadius < 0);
 }
 
 init();
