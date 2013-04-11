@@ -1,0 +1,92 @@
+/* STANDARD STYLES */
+
+body {
+	background: #e9e4de;
+	padding: 0;
+	margin: 0;
+}
+
+@font-face {
+	font-family: 'MuseoSlab500';
+	src: url("../../../library/fonts/Museo_Slab_500-webfont.eot");
+	src: url("../../../library/fonts/Museo_Slab_500-webfont.eot?#iefix") format("embedded-opentype"), url("../../../library/fonts/Museo_Slab_500-webfont.woff") format("woff"), url("../../../library/fonts/Museo_Slab_500-webfont.ttf") format("truetype"), url("../../../library/fonts/Museo_Slab_500-webfont.svg#MuseoSlab500Regular") format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'MuseoSlab500';
+	src: url("../../../library/fonts/Museo_Slab_500italic-webfont.eot");
+	src: url("../../../library/fonts/Museo_Slab_500italic-webfont.eot?#iefix") format("embedded-opentype"), url("../../../library/fonts/Museo_Slab_500italic-webfont.woff") format("woff"), url("../../../library/fonts/Museo_Slab_500italic-webfont.ttf") format("truetype"), url("../../../library/fonts/Museo_Slab_500italic-webfont.svg#MuseoSlab500Italic") format("svg");
+	font-weight: normal;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'MuseoSlab500';
+	src: url("../../../library/fonts/Museo_Slab_500-webfont.eot");
+	src: url("../../../library/fonts/Museo_Slab_500-webfont.eot?#iefix") format("embedded-opentype"), url("../../../library/fonts/Museo_Slab_500-webfont.woff") format("woff"), url("../../../library/fonts/Museo_Slab_500-webfont.ttf") format("truetype"), url("../../../library/fonts/Museo_Slab_500-webfont.svg#MuseoSlab500Regular") format("svg");
+	font-weight: bold;
+	font-style: normal;
+}
+
+
+.interactive-wrapper {
+	width: 963px;
+	overflow: hidden;
+	background: #fff;
+	border-radius: 3px;
+	border: 1px #d1cdc2 solid;
+}
+
+
+
+/* INSTRUCTIONS BLOCK */
+
+.instructions {
+	color: #656565;
+	float: right;
+	width: 265px;
+	font-family:'MuseoSlab500', Helvetica, Sans-serif;
+}
+
+.instructions h2 {
+	padding: 20px 20px 15px;
+	margin: 0 0 0.8em;
+	border-bottom: 1px #d1cdc2 solid;
+	font: normal 1em 'MuseoSlab500', Helvetica, Sans-serif;
+}
+
+.instructions div {
+	padding: 0 20px;
+}
+
+p, .instructions p {
+	font: normal 0.95em/1.5 'MuseoSlab500', Helvetica, Sans-serif;
+	margin: 0 0 1.5em;
+}
+
+h3 {
+/*	padding: 20px 20px 15px;
+	margin: 0 0 0.8em; */
+	font: normal 1.625em 'MuseoSlab500', Helvetica, Sans-serif
+}
+
+
+
+/* INTERACTIVE-SPECIFIC STYLES */
+
+
+/* STAGE */
+.interactive {
+	background: #f4f0ed;
+	padding: 0;
+	list-style: none;
+	width: 697px;
+	float: left;
+	border-right: 1px #d1cdc2 solid;
+	overflow: hidden;
+	position: relative;
+}
+
+
