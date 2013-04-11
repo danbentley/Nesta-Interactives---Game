@@ -9,13 +9,18 @@ function draw() {
   clear();
   ctx.fillStyle = ballcolor;
   circle(x, y, ballr);
+
+  var paddlePosition = {
+    x: paddlex + PADDLE_POSITION_OFFSET.x,
+    y: HEIGHT - paddleh + PADDLE_POSITION_OFFSET.y
+  };
  
   if (rightDown) paddlex += 5;
   else if (leftDown) paddlex -= 5;
   ctx.fillStyle = paddlecolor;
 
   // Draw paddle
-  rect(paddlex + PADDLE_POSITION_OFFSET.x, HEIGHT - paddleh + PADDLE_POSITION_OFFSET.y, paddlew, paddleh);
+  rect(paddlePosition.x, paddlePosition.y, paddlew, paddleh);
  
   drawbricks();
  
@@ -38,7 +43,7 @@ function draw() {
     dy = -dy;
   else if (y + dy + ballr > HEIGHT - paddleh + PADDLE_POSITION_OFFSET.y) {
     // Ball has hit paddle
-    if (x > paddlex && x < paddlex + paddlew - PADDLE_POSITION_OFFSET.y) {
+    if (x > paddlePosition.x && x < paddlePosition.y) {
       //move the ball differently based on where it hit the paddle
       dx = 8 * ((x-(paddlex+paddlew/2))/paddlew);
       dy = -dy;
