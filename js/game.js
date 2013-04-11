@@ -42,7 +42,8 @@ function draw() {
     updateBricks();
 
     if (isBallOutOfBounds()) {
-        clearInterval(intervalId);
+        $(window).trigger('player.died');
+        return restart();
     }
 
     // If the ball has hit the wall
@@ -62,6 +63,17 @@ function draw() {
     }
 
     ballPosition = tempBallPosition;
+}
+
+function restart() {
+    ballPosition = {
+        x: 25,
+        y: 250,
+    };
+    ballSpeed = {
+        x: 1.5,
+        y: -4,
+    };
 }
 
 function updateBricks() {

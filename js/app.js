@@ -26,6 +26,7 @@ var PADDING = 1;
 var POINTS_PER_BRICK = 30;
 var score = 0;
 var $currentScore = $('#current-score');
+var currentLives = 3;
 
 function init() {
   ctx = $('#canvas')[0].getContext("2d");
@@ -43,6 +44,26 @@ $(window).on('brick.destroyed', function() {
     score += POINTS_PER_BRICK;
     $currentScore.find('strong').html(score);
 });
+
+$(window).on('player.died', function() {
+    currentLives--;
+    if (currentLives === 0) {
+        gameOver();
+    } else {
+        restart();
+    }
+});
+
+function restart() {
+    ballPosition = {
+        x: 25,
+        y: 250,
+    }
+}
+
+function gameOver() {
+    alert('Game over man, game over');
+}
 
 function circle(x,y,r) {
   ctx.beginPath();
