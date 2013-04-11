@@ -1,8 +1,8 @@
 var ballr = 10;
-var rowcolors = ["#FF1C0A", "#FFFD0A", "#00A308", "#0008DB", "#EB0093"];
-var paddlecolor = "#FFFFFF";
-var ballcolor = "#FFFFFF";
-var backcolor = "#000000";
+var rowcolors = ["#f2665e", "#fcb040", "#6ac071", "#57cbf5", "#f2665e"];
+var paddlecolor = "#656565";
+var ballcolor = "#f2665e";
+var backcolor = "#f4f0ed";
  
 function draw() {
   ctx.fillStyle = backcolor;
