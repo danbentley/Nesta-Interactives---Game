@@ -48,22 +48,11 @@ $(window).on('brick.destroyed', function() {
 $(window).on('player.died', function() {
     currentLives--;
     if (currentLives === 0) {
-        gameOver();
+        $(window).trigger('game.over');
     } else {
         restart();
     }
 });
-
-function restart() {
-    ballPosition = {
-        x: 25,
-        y: 250,
-    }
-}
-
-function gameOver() {
-    alert('Game over man, game over');
-}
 
 function circle(x,y,r) {
   ctx.beginPath();

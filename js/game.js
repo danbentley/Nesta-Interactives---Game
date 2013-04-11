@@ -21,6 +21,11 @@ var tempBallPosition = {
     y: 0,
 }
 
+$(window).on('game.over', function() {
+    alert('Game over man, game over');
+    clearInterval(intervalId);
+});
+
 function draw() {
     ctx.fillStyle = backcolor;
     clear();
@@ -130,5 +135,5 @@ function isBallOutOfBounds() {
     return (tempBallPosition.y + ballRadius >= HEIGHT);
 }
 
-init();
+var intervalId = init();
 initbricks();
