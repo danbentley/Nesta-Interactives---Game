@@ -39,7 +39,7 @@ function draw() {
 
     if (hasBallHitTop()) {
         tempBallPosition.y = -tempBallPosition.y;
-    } else if (ballPosition.y + tempBallPosition.y + ballRadius > HEIGHT - paddleh + PADDLE_POSITION_OFFSET.y) {
+    } else if (hasBallHitPaddle()) {
         // Ball has hit paddle
         if (ballPosition.x > paddlePosition.x && ballPosition.x < paddlePosition.y) {
             //move the ball differently based on where it hit the paddle
@@ -89,6 +89,10 @@ function hasBallHitWall() {
 
 function hasBallHitTop() {
     return (ballPosition.y + tempBallPosition.y - ballRadius < 0);
+}
+
+function hasBallHitPaddle() {
+    return (ballPosition.y + tempBallPosition.y + ballRadius > HEIGHT - paddleh + PADDLE_POSITION_OFFSET.y);
 }
 
 function isBallOutOfBounds() {
