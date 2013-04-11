@@ -45,7 +45,7 @@ function draw() {
             //move the ball differently based on where it hit the paddle
             tempBallPosition.x = 8 * ((ballPosition.x-(paddlex+paddlew/2))/paddlew);
             tempBallPosition.y = -tempBallPosition.y;
-        } else if (ballPosition.y + tempBallPosition.y + ballRadius > HEIGHT) {
+        } else if (isBallOutOfBounds()) {
             clearInterval(intervalId);
         }
     }
@@ -85,6 +85,10 @@ function drawPaddle() {
 function hasBallHitWall() {
     return (ballPosition.x + tempBallPosition.x + ballRadius > WIDTH 
             || ballPosition.x + tempBallPosition.x - ballRadius < 0);
+}
+
+function isBallOutOfBounds() {
+    return (ballPosition.y + tempBallPosition.y + ballRadius > HEIGHT);
 }
 
 init();
