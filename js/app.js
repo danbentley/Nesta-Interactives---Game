@@ -26,6 +26,7 @@ var PADDING = 1;
 var POINTS_PER_BRICK = 30;
 var score = 0;
 var $currentScore = $('#current-score');
+var $currentLives = $('#lives')
 var currentLives = 3;
 
 function init() {
@@ -47,6 +48,7 @@ $(window).on('brick.destroyed', function() {
 
 $(window).on('player.died', function() {
     currentLives--;
+    $currentLives.find('strong').html(currentLives);
     if (currentLives === 0) {
         $(window).trigger('game.over');
     } else {
