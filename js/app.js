@@ -15,9 +15,9 @@ var canvasMaxX = 0;
 var intervalId = 0;
 var bricks;
 var NROWS = 5;
-var NCOLS = 5;
+var NCOLS = 27;
 var BRICKWIDTH;
-var BRICKHEIGHT = 15;
+var BRICKHEIGHT = 18;
 var PADDING = 1;
 
 function init() {
