@@ -41,7 +41,7 @@ function draw() {
 
     if (y + dy - ballr < 0) {
         dy = -dy;
-    else if (y + dy + ballr > HEIGHT - paddleh + PADDLE_POSITION_OFFSET.y) {
+    } else if (y + dy + ballr > HEIGHT - paddleh + PADDLE_POSITION_OFFSET.y) {
         // Ball has hit paddle
         if (x > paddlePosition.x && x < paddlePosition.y) {
             //move the ball differently based on where it hit the paddle
