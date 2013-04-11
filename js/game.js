@@ -11,10 +11,14 @@ var ballPosition = {
     x: 25,
     y: 250,
 }
-// Used to calculate where the ball is going/what it's hitting
-var tempBallPosition = {
+var ballSpeed = {
     x: 1.5,
     y: -4,
+}
+// Used to calculate where the ball is going/what it's hitting
+var tempBallPosition = {
+    x: 0,
+    y: 0,
 }
 
 function draw() {
@@ -28,30 +32,35 @@ function draw() {
         y: HEIGHT - paddleh + PADDLE_POSITION_OFFSET.y
     };
 
+    tempBallPosition = {
+        x: ballPosition.x + ballSpeed.x,
+        y: ballPosition.y + ballSpeed.y
+    };
+
     drawPaddle();
     drawbricks();
     updateBricks();
 
     // If the ball has hit the wall
     if (hasBallHitWall()) {
-        tempBallPosition.x = -tempBallPosition.x;
+        ballSpeed.x = -ballSpeed.x;
     }
 
     if (hasBallHitTop()) {
-        tempBallPosition.y = -tempBallPosition.y;
+        ballSpeed.y = -ballSpeed.y;
     } else if (isBallNearPaddle()) {
         // Ball has hit paddle
         if (hasBallHitPaddle()) {
             //move the ball differently based on where it hit the paddle
-            tempBallPosition.x = 8 * ((ballPosition.x-(paddlex+paddlew/2))/paddlew);
-            tempBallPosition.y = -tempBallPosition.y;
+            ballSpeed.x = 8 * ((ballPosition.x-(paddlex+paddlew/2))/paddlew);
+            ballSpeed.y = -ballSpeed.y;
         } else if (isBallOutOfBounds()) {
             clearInterval(intervalId);
         }
     }
 
-    ballPosition.x += tempBallPosition.x;
-    ballPosition.y += tempBallPosition.y;
+    ballPosition.x += ballSpeed.x;
+    ballPosition.y += ballSpeed.y;
 }
 
 function updateBricks() {
@@ -63,7 +72,7 @@ function updateBricks() {
     col = Math.floor(ballPosition.x/colwidth);
     //reverse the ball and mark the brick as broken
     if (ballPosition.y < NROWS * rowheight && row >= 0 && col >= 0 && bricks[row][col] == 1) {
-        tempBallPosition.y = -tempBallPosition.y;
+        ballSpeed.y = -ballSpeed.y;
         bricks[row][col] = 0;
     }
 }
@@ -83,12 +92,12 @@ function drawPaddle() {
 }
 
 function hasBallHitWall() {
-    return (ballPosition.x + tempBallPosition.x + ballRadius > WIDTH 
-            || ballPosition.x + tempBallPosition.x - ballRadius < 0);
+    return (tempBallPosition.x + ballRadius > WIDTH 
+            || tempBallPosition.x - ballRadius < 0);
 }
 
 function hasBallHitTop() {
-    return (ballPosition.y + tempBallPosition.y - ballRadius < 0);
+    return (ballPosition.y + ballSpeed.y - ballRadius < 0);
 }
 
 /**
@@ -96,7 +105,7 @@ function hasBallHitTop() {
  * or whether it's too late/early
  */
 function isBallNearPaddle() {
-    return (ballPosition.y + tempBallPosition.y + ballRadius > HEIGHT - paddleh + PADDLE_POSITION_OFFSET.y);
+    return (tempBallPosition.y + ballRadius > HEIGHT - paddleh + PADDLE_POSITION_OFFSET.y);
 }
 
 function hasBallHitPaddle() {
@@ -104,7 +113,7 @@ function hasBallHitPaddle() {
 }
 
 function isBallOutOfBounds() {
-    return (ballPosition.y + tempBallPosition.y + ballRadius > HEIGHT);
+    return (ballPosition.y + ballSpeed.y + ballRadius > HEIGHT);
 }
 
 init();
