@@ -23,6 +23,9 @@ var NCOLS = 27;
 var BRICKWIDTH;
 var BRICKHEIGHT = 18;
 var PADDING = 1;
+var POINTS_PER_BRICK = 30;
+var score = 0;
+var $currentScore = $('#current-score');
 
 function init() {
   ctx = $('#canvas')[0].getContext("2d");
@@ -35,6 +38,11 @@ function init() {
   intervalId = setInterval(draw, 10);
   return intervalId;
 }
+
+$(window).on('brick.destroyed', function() {
+    score += POINTS_PER_BRICK;
+    $currentScore.find('strong').html(score);
+});
 
 function circle(x,y,r) {
   ctx.beginPath();

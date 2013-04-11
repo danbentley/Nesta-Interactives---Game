@@ -75,6 +75,7 @@ function updateBricks() {
     if (ballPosition.y < NROWS * rowheight && row >= 0 && col >= 0 && bricks[row][col] == 1) {
         ballSpeed.y *= -1;
         bricks[row][col] = 0;
+        $(window).trigger('brick.destroyed');
     }
 }
 
