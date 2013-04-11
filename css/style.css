@@ -90,3 +90,39 @@ h3 {
 }
 
 
+
+/* CURRENT SCORE INDICATOR */
+.current-score {
+	position: absolute;
+	bottom: 10px;
+	left: 10px;
+	z-index: 10;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+.current-score span {
+	font: normal 0.7em/1 'MuseoSlab500', Helvetica, Sans-serif;
+	text-transform: uppercase;
+	display: block;
+	background-color: rgba(255,255,255,0.5);
+	padding: 3px 10px 2px;
+	color: #656565;
+}
+
+.current-score span strong {
+	color: #f2665e;
+}
+
+
+
+
+
+
+
+
+
+
