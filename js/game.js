@@ -46,9 +46,7 @@ function draw() {
         ballSpeed.x = -ballSpeed.x;
     }
 
-    if (hasBallHitTop()) {
-        ballSpeed.y = -ballSpeed.y;
-    } else if (isBallNearPaddle()) {
+    if (isBallNearPaddle()) {
         // Ball has hit paddle
         if (hasBallHitPaddle()) {
             //move the ball differently based on where it hit the paddle
@@ -57,6 +55,8 @@ function draw() {
         } else if (isBallOutOfBounds()) {
             clearInterval(intervalId);
         }
+    } else if (hasBallHitTop()) {
+        ballSpeed.y = -ballSpeed.y;
     }
 
     ballPosition = tempBallPosition;
@@ -67,8 +67,8 @@ function updateBricks() {
     // http://www.harveycartel.org/metanet/tutorials/tutorialA.html
     rowheight = BRICKHEIGHT + PADDING;
     colwidth = BRICKWIDTH + PADDING;
-    row = Math.floor(ballPosition.y/rowheight);
-    col = Math.floor(ballPosition.x/colwidth);
+    row = Math.floor(ballPosition.y / rowheight);
+    col = Math.floor(ballPosition.x / colwidth);
     //reverse the ball and mark the brick as broken
     if (ballPosition.y < NROWS * rowheight && row >= 0 && col >= 0 && bricks[row][col] == 1) {
         ballSpeed.y = -ballSpeed.y;
@@ -108,7 +108,7 @@ function isBallNearPaddle() {
 }
 
 function hasBallHitPaddle() {
-    return (ballPosition.x > paddlePosition.x && ballPosition.x < paddlePosition.y);
+    return (ballPosition.x > paddlePosition.x && ballPosition.x < paddlePosition.x + paddlew);
 }
 
 function isBallOutOfBounds() {
