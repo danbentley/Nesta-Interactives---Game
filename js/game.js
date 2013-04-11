@@ -41,9 +41,13 @@ function draw() {
     drawbricks();
     updateBricks();
 
+    if (isBallOutOfBounds()) {
+        clearInterval(intervalId);
+    }
+
     // If the ball has hit the wall
     if (hasBallHitWall()) {
-        ballSpeed.x = -ballSpeed.x;
+        ballSpeed.x *= -1;
     }
 
     if (isBallNearPaddle()) {
@@ -51,12 +55,10 @@ function draw() {
         if (hasBallHitPaddle()) {
             //move the ball differently based on where it hit the paddle
             ballSpeed.x = 8 * ((ballPosition.x - (paddlex + paddlew / 2)) / paddlew);
-            ballSpeed.y = -ballSpeed.y;
-        } else if (isBallOutOfBounds()) {
-            clearInterval(intervalId);
-        }
+            ballSpeed.y *= -1;
+        } 
     } else if (hasBallHitTop()) {
-        ballSpeed.y = -ballSpeed.y;
+        ballSpeed.y *= -1;
     }
 
     ballPosition = tempBallPosition;
@@ -71,7 +73,7 @@ function updateBricks() {
     col = Math.floor(ballPosition.x / colwidth);
     //reverse the ball and mark the brick as broken
     if (ballPosition.y < NROWS * rowheight && row >= 0 && col >= 0 && bricks[row][col] == 1) {
-        ballSpeed.y = -ballSpeed.y;
+        ballSpeed.y *= -1;
         bricks[row][col] = 0;
     }
 }
@@ -104,7 +106,7 @@ function hasBallHitTop() {
  * or whether it's too late/early
  */
 function isBallNearPaddle() {
-    return (tempBallPosition.y + ballRadius > HEIGHT - paddleh + PADDLE_POSITION_OFFSET.y);
+    return (tempBallPosition.y + ballRadius >= HEIGHT - paddleh + PADDLE_POSITION_OFFSET.y);
 }
 
 function hasBallHitPaddle() {
@@ -112,7 +114,7 @@ function hasBallHitPaddle() {
 }
 
 function isBallOutOfBounds() {
-    return (ballPosition.y + ballSpeed.y + ballRadius > HEIGHT);
+    return (tempBallPosition.y + ballRadius >= HEIGHT);
 }
 
 init();
