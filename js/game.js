@@ -52,15 +52,14 @@ function draw() {
         // Ball has hit paddle
         if (hasBallHitPaddle()) {
             //move the ball differently based on where it hit the paddle
-            ballSpeed.x = 8 * ((ballPosition.x-(paddlex+paddlew/2))/paddlew);
+            ballSpeed.x = 8 * ((ballPosition.x - (paddlex + paddlew / 2)) / paddlew);
             ballSpeed.y = -ballSpeed.y;
         } else if (isBallOutOfBounds()) {
             clearInterval(intervalId);
         }
     }
 
-    ballPosition.x += ballSpeed.x;
-    ballPosition.y += ballSpeed.y;
+    ballPosition = tempBallPosition;
 }
 
 function updateBricks() {
