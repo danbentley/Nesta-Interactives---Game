@@ -34,10 +34,12 @@ function draw() {
         bricks[row][col] = 0;
     }
 
-    if (x + dx + ballr > WIDTH || x + dx - ballr < 0)
+    // If the ball has hit the wall
+    if (x + dx + ballr > WIDTH || x + dx - ballr < 0) {
         dx = -dx;
+    }
 
-    if (y + dy - ballr < 0)
+    if (y + dy - ballr < 0) {
         dy = -dy;
     else if (y + dy + ballr > HEIGHT - paddleh + PADDLE_POSITION_OFFSET.y) {
         // Ball has hit paddle
@@ -45,9 +47,9 @@ function draw() {
             //move the ball differently based on where it hit the paddle
             dx = 8 * ((x-(paddlex+paddlew/2))/paddlew);
             dy = -dy;
-        }
-        else if (y + dy + ballr > HEIGHT)
+        } else if (y + dy + ballr > HEIGHT) {
             clearInterval(intervalId);
+        }
     }
 
     x += dx;
@@ -57,8 +59,11 @@ function draw() {
 function drawPaddle() {
 
     // Move paddle
-    if (rightDown) paddlex += 5;
-    else if (leftDown) paddlex -= 5;
+    if (rightDown) {
+        paddlex += 5;
+    } else if (leftDown) {
+        paddlex -= 5;
+    }
     ctx.fillStyle = paddlecolor;
 
     // Draw paddle
