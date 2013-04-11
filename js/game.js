@@ -114,7 +114,7 @@ function hasBallHitPaddle() {
 }
 
 function isBallOutOfBounds() {
-    return (ballPosition.y + ballSpeed.y + ballRadius > HEIGHT);
+    return (tempBallPosition.y + ballRadius >= HEIGHT);
 }
 
 init();
