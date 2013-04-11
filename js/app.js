@@ -30,15 +30,16 @@ var $currentLives = $('#lives')
 var currentLives = 3;
 
 function init() {
-  ctx = $('#canvas')[0].getContext("2d");
-  WIDTH = $("#canvas").width();
-  HEIGHT = $("#canvas").height();
-  paddlex = (WIDTH - paddlew) / 2;
-  BRICKWIDTH = (WIDTH/NCOLS) - 1;
-  canvasMinX = $("#canvas").offset().left;
-  canvasMaxX = canvasMinX + WIDTH;
-  intervalId = setInterval(draw, 10);
-  return intervalId;
+    ctx = $('#canvas')[0].getContext("2d");
+    WIDTH = $("#canvas").width();
+    HEIGHT = $("#canvas").height();
+    paddlex = (WIDTH - paddlew) / 2;
+    BRICKWIDTH = (WIDTH/NCOLS) - 1;
+    canvasMinX = $("#canvas").offset().left;
+    canvasMaxX = canvasMinX + WIDTH;
+    intervalId = setInterval(draw, 10);
+    updateLives();
+    return intervalId;
 }
 
 $(window).on('brick.destroyed', function() {
@@ -46,9 +47,13 @@ $(window).on('brick.destroyed', function() {
     $currentScore.find('strong').html(score);
 });
 
+function updateLives() {
+    $currentLives.find('strong').html(currentLives);
+}
+
 $(window).on('player.died', function() {
     currentLives--;
-    $currentLives.find('strong').html(currentLives);
+    updateLives();
     if (currentLives === 0) {
         $(window).trigger('game.over');
     } else {
@@ -57,42 +62,42 @@ $(window).on('player.died', function() {
 });
 
 function circle(x,y,r) {
-  ctx.beginPath();
-  ctx.arc(x, y, r, 0, Math.PI*2, true);
-  ctx.closePath();
-  ctx.fill();
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI*2, true);
+    ctx.closePath();
+    ctx.fill();
 }
 
 function rect(x,y,w,h) {
-  ctx.beginPath();
-  ctx.rect(x,y,w,h);
-  ctx.closePath();
-  ctx.fill();
+    ctx.beginPath();
+    ctx.rect(x,y,w,h);
+    ctx.closePath();
+    ctx.fill();
 }
 
 function clear() {
-  ctx.clearRect(0, 0, WIDTH, HEIGHT);
-  rect(0,0,WIDTH,HEIGHT);
+    ctx.clearRect(0, 0, WIDTH, HEIGHT);
+    rect(0,0,WIDTH,HEIGHT);
 }
 
 function onKeyDown(evt) {
-  if (evt.keyCode == 39) rightDown = true;
-  else if (evt.keyCode == 37) leftDown = true;
+    if (evt.keyCode == 39) rightDown = true;
+    else if (evt.keyCode == 37) leftDown = true;
 }
 
 function onKeyUp(evt) {
-  if (evt.keyCode == 39) rightDown = false;
-  else if (evt.keyCode == 37) leftDown = false;
+    if (evt.keyCode == 39) rightDown = false;
+    else if (evt.keyCode == 37) leftDown = false;
 }
 
 $(document).keydown(onKeyDown);
 $(document).keyup(onKeyUp);
 
 function onMouseMove(evt) {
-  if (evt.pageX > canvasMinX && evt.pageX < canvasMaxX) {
-    paddlex = Math.max(evt.pageX - canvasMinX - (paddlew/2), 0);
-    paddlex = Math.min(WIDTH - paddlew, paddlex);
-  }
+    if (evt.pageX > canvasMinX && evt.pageX < canvasMaxX) {
+        paddlex = Math.max(evt.pageX - canvasMinX - (paddlew/2), 0);
+        paddlex = Math.min(WIDTH - paddlew, paddlex);
+    }
 }
 
 $(document).mousemove(onMouseMove);
@@ -108,15 +113,15 @@ function initbricks() {
 }
 
 function drawbricks() {
-  for (i=0; i < NROWS; i++) {
-    ctx.fillStyle = rowcolors[i];
-    for (j=0; j < NCOLS; j++) {
-      if (bricks[i][j] == 1) {
-        rect((j * (BRICKWIDTH + PADDING)) + PADDING, 
-             (i * (BRICKHEIGHT + PADDING)) + PADDING,
-             BRICKWIDTH, BRICKHEIGHT);
-      }
+    for (i=0; i < NROWS; i++) {
+        ctx.fillStyle = rowcolors[i];
+        for (j=0; j < NCOLS; j++) {
+            if (bricks[i][j] == 1) {
+                rect((j * (BRICKWIDTH + PADDING)) + PADDING, 
+                        (i * (BRICKHEIGHT + PADDING)) + PADDING,
+                        BRICKWIDTH, BRICKHEIGHT);
+            }
+        }
     }
-  }
 }
 
