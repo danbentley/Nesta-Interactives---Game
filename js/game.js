@@ -39,9 +39,9 @@ function draw() {
 
     if (hasBallHitTop()) {
         tempBallPosition.y = -tempBallPosition.y;
-    } else if (hasBallHitPaddle()) {
+    } else if (isBallNearPaddle()) {
         // Ball has hit paddle
-        if (ballPosition.x > paddlePosition.x && ballPosition.x < paddlePosition.y) {
+        if (hasBallHitPaddle()) {
             //move the ball differently based on where it hit the paddle
             tempBallPosition.x = 8 * ((ballPosition.x-(paddlex+paddlew/2))/paddlew);
             tempBallPosition.y = -tempBallPosition.y;
@@ -91,8 +91,16 @@ function hasBallHitTop() {
     return (ballPosition.y + tempBallPosition.y - ballRadius < 0);
 }
 
-function hasBallHitPaddle() {
+/**
+ * Is the ball about to hit the paddle. Check whether the ball is currently hittable
+ * or whether it's too late/early
+ */
+function isBallNearPaddle() {
     return (ballPosition.y + tempBallPosition.y + ballRadius > HEIGHT - paddleh + PADDLE_POSITION_OFFSET.y);
+}
+
+function hasBallHitPaddle() {
+    return (ballPosition.x > paddlePosition.x && ballPosition.x < paddlePosition.y);
 }
 
 function isBallOutOfBounds() {
