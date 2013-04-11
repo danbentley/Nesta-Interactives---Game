@@ -30,18 +30,7 @@ function draw() {
 
     drawPaddle();
     drawbricks();
-
-    //want to learn about real collision detection? go read
-    // http://www.harveycartel.org/metanet/tutorials/tutorialA.html
-    rowheight = BRICKHEIGHT + PADDING;
-    colwidth = BRICKWIDTH + PADDING;
-    row = Math.floor(ballPosition.y/rowheight);
-    col = Math.floor(ballPosition.x/colwidth);
-    //reverse the ball and mark the brick as broken
-    if (ballPosition.y < NROWS * rowheight && row >= 0 && col >= 0 && bricks[row][col] == 1) {
-        tempBallPosition.y = -tempBallPosition.y;
-        bricks[row][col] = 0;
-    }
+    updateBricks();
 
     // If the ball has hit the wall
     if (ballPosition.x + tempBallPosition.x + ballRadius > WIDTH || ballPosition.x + tempBallPosition.x - ballRadius < 0) {
@@ -63,6 +52,20 @@ function draw() {
 
     ballPosition.x += tempBallPosition.x;
     ballPosition.y += tempBallPosition.y;
+}
+
+function updateBricks() {
+    //want to learn about real collision detection? go read
+    // http://www.harveycartel.org/metanet/tutorials/tutorialA.html
+    rowheight = BRICKHEIGHT + PADDING;
+    colwidth = BRICKWIDTH + PADDING;
+    row = Math.floor(ballPosition.y/rowheight);
+    col = Math.floor(ballPosition.x/colwidth);
+    //reverse the ball and mark the brick as broken
+    if (ballPosition.y < NROWS * rowheight && row >= 0 && col >= 0 && bricks[row][col] == 1) {
+        tempBallPosition.y = -tempBallPosition.y;
+        bricks[row][col] = 0;
+    }
 }
 
 function drawPaddle() {
