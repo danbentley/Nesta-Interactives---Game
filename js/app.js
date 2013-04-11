@@ -5,9 +5,13 @@ var dy = -4;
 var ctx;
 var WIDTH;
 var HEIGHT;
+var PADDLE_POSITION_OFFSET = {
+    x: 0,
+    y: -30
+};
 var paddlex;
-var paddleh = 10;
-var paddlew = 75;
+var paddleh = 13;
+var paddlew = 110;
 var rightDown = false;
 var leftDown = false;
 var canvasMinX = 0;
@@ -15,16 +19,16 @@ var canvasMaxX = 0;
 var intervalId = 0;
 var bricks;
 var NROWS = 5;
-var NCOLS = 5;
+var NCOLS = 27;
 var BRICKWIDTH;
-var BRICKHEIGHT = 15;
+var BRICKHEIGHT = 18;
 var PADDING = 1;
 
 function init() {
   ctx = $('#canvas')[0].getContext("2d");
   WIDTH = $("#canvas").width();
   HEIGHT = $("#canvas").height();
-  paddlex = WIDTH / 2;
+  paddlex = (WIDTH - paddlew) / 2;
   BRICKWIDTH = (WIDTH/NCOLS) - 1;
   canvasMinX = $("#canvas").offset().left;
   canvasMaxX = canvasMinX + WIDTH;

@@ -1,10 +1,31 @@
 <html>
 	<head>
+		<title>Brickout</title>
 		<link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8">
         
 	</head>
 	<body>
-        <canvas id="canvas" width="700" height="350"></canvas>
+		
+		<div class="interactive-wrapper">		
+			
+			<div id="grid" class="game interactive">
+				<canvas id="canvas" width="700" height="350"></canvas>
+			</div>
+		
+			<div class="instructions">
+				
+				<h2>Information</h2>
+				
+				<div>
+					<p>Use your mouse to deflect the ball back at the triangles, clear the triangles as quick as you can for maximum points!</p>
+					
+					<p>If the ball passes you by, it’s game over!</p>
+				</div>
+				
+			</div>
+		
+		</div>
+
 		<script src="js/lib/jquery.min.js"></script>
 		<script src="js/app.js"></script>
 		<script src="js/game.js"></script>
