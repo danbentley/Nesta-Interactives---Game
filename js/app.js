@@ -9,10 +9,6 @@ define([], function() {
         ctx: null,
         WIDTH: 0,
         HEIGHT: 0,
-        PADDLE_POSITION_OFFSET: {
-            x: 0,
-            y: -30
-        },
         paddlex: 0,
         paddleh: 13,
         paddlew: 110,

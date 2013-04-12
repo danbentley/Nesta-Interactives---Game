@@ -18,6 +18,10 @@ define(['app'], function() {
         paddlecolor: "#656565",
         ballcolor: "#f2665e",
         backcolor: "#f4f0ed",
+        PADDLE_POSITION_OFFSET: {
+            x: 0,
+            y: -30
+        },
         paddlePosition: {
             x: 0,
             y: 0
@@ -62,8 +66,8 @@ define(['app'], function() {
             this.ctx.fillStyle = this.ballcolor;
 
             this.paddlePosition = {
-                x: this.app.paddlex + this.app.PADDLE_POSITION_OFFSET.x,
-                y: this.app.HEIGHT - this.app.paddleh + this.app.PADDLE_POSITION_OFFSET.y
+                x: this.app.paddlex + this.PADDLE_POSITION_OFFSET.x,
+                y: this.app.HEIGHT - this.app.paddleh + this.PADDLE_POSITION_OFFSET.y
             };
 
             this.tempBallPosition = {
@@ -233,7 +237,7 @@ define(['app'], function() {
          * or whether it's too late/early
          */
         isBallNearPaddle: function() {
-            return (this.tempBallPosition.y + this.ballRadius >= this.app.HEIGHT - this.app.paddleh + this.app.PADDLE_POSITION_OFFSET.y);
+            return (this.tempBallPosition.y + this.ballRadius >= this.app.HEIGHT - this.app.paddleh + this.PADDLE_POSITION_OFFSET.y);
         },
 
         hasBallHitPaddle: function() {
