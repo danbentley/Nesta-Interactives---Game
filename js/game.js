@@ -47,14 +47,18 @@ define(['app'], function() {
             this.app = app;
             this.app.init();
             this.ctx = this.app.ctx;
-            this.drawIntervalId = setInterval($.proxy(function() {
-                this.draw();
-            }, this), 10);
             this.BRICKWIDTH = (this.app.WIDTH / this.COL_COUNT) - 1;
             this.initPaddle();
             this.initBricks();
+            this.startDrawInterval();
             this.startAddRowInterval();
             this.addListeners();
+        },
+
+        reset: function() {
+            this.bricks = [];
+            this.initBricks();
+            this.startDrawInterval();
         },
 
         addListeners: function() {
@@ -62,10 +66,20 @@ define(['app'], function() {
                 clearInterval(this.drawIntervalId);
             }, this));
 
+            $(window).on('game.reset', $.proxy(function() {
+                this.reset();
+            }, this));
+
             $(window).on('mouse.moved', $.proxy(function(e, x, y) {
                 this.paddlex = Math.max(x - this.app.canvasMinX - (this.paddlew / 2), 0);
                 this.paddlex = Math.min(this.app.WIDTH - this.paddlew, this.paddlex);
             }, this));
+        },
+
+        startDrawInterval: function() {
+            this.drawIntervalId = setInterval($.proxy(function() {
+                this.draw();
+            }, this), 10);
         },
 
         draw: function() {
