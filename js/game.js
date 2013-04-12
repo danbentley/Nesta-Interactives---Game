@@ -1,5 +1,4 @@
 var ballRadius = 9;
-var rowcolors = ["#f2665e", "#fcb040", "#6ac071", "#57cbf5", "#f2665e"];
 var paddlecolor = "#656565";
 var ballcolor = "#f2665e";
 var backcolor = "#f4f0ed";
@@ -27,14 +26,14 @@ $(window).on('game.over', function() {
 });
 
 function draw() {
-    ctx.fillStyle = backcolor;
-    clear();
-    ctx.fillStyle = ballcolor;
-    circle(ballPosition.x, ballPosition.y, ballRadius);
+    app.ctx.fillStyle = backcolor;
+    app.clear();
+    app.ctx.fillStyle = ballcolor;
+    app.circle(ballPosition.x, ballPosition.y, ballRadius);
 
     paddlePosition = {
-        x: paddlex + PADDLE_POSITION_OFFSET.x,
-        y: HEIGHT - paddleh + PADDLE_POSITION_OFFSET.y
+        x: app.paddlex + app.PADDLE_POSITION_OFFSET.x,
+        y: app.HEIGHT - app.paddleh + app.PADDLE_POSITION_OFFSET.y
     };
 
     tempBallPosition = {
@@ -43,7 +42,7 @@ function draw() {
     };
 
     drawPaddle();
-    drawbricks();
+    app.drawBricks();
     updateBricks();
 
     if (isBallOutOfBounds()) {
@@ -60,7 +59,7 @@ function draw() {
         // Ball has hit paddle
         if (hasBallHitPaddle()) {
             //move the ball differently based on where it hit the paddle
-            ballSpeed.x = 8 * ((ballPosition.x - (paddlex + paddlew / 2)) / paddlew);
+            ballSpeed.x = 8 * ((ballPosition.x - (app.paddlex + app.paddlew / 2)) / app.paddlew);
             ballSpeed.y *= -1;
         } 
     } else if (hasBallHitTop()) {
@@ -84,14 +83,14 @@ function restart() {
 function updateBricks() {
     //want to learn about real collision detection? go read
     // http://www.harveycartel.org/metanet/tutorials/tutorialA.html
-    rowheight = BRICKHEIGHT + PADDING;
-    colwidth = BRICKWIDTH + PADDING;
+    rowheight = app.BRICKHEIGHT + app.PADDING;
+    colwidth = app.BRICKWIDTH + app.PADDING;
     row = Math.floor(ballPosition.y / rowheight);
     col = Math.floor(ballPosition.x / colwidth);
     //reverse the ball and mark the brick as broken
-    if (ballPosition.y < NROWS * rowheight && row >= 0 && col >= 0 && bricks[row][col] == 1) {
+    if (ballPosition.y < app.NROWS * rowheight && row >= 0 && col >= 0 && app.bricks[row][col] == 1) {
         ballSpeed.y *= -1;
-        bricks[row][col] = 0;
+        app.bricks[row][col] = 0;
         $(window).trigger('brick.destroyed');
     }
 }
@@ -99,19 +98,19 @@ function updateBricks() {
 function drawPaddle() {
 
     // Move paddle
-    if (rightDown) {
+    if (app.rightDown) {
         paddlex += 5;
-    } else if (leftDown) {
+    } else if (app.leftDown) {
         paddlex -= 5;
     }
-    ctx.fillStyle = paddlecolor;
+    app.ctx.fillStyle = paddlecolor;
 
     // Draw paddle
-    rect(paddlePosition.x, paddlePosition.y, paddlew, paddleh);
+    app.rect(paddlePosition.x, paddlePosition.y, app.paddlew, app.paddleh);
 }
 
 function hasBallHitWall() {
-    return (tempBallPosition.x + ballRadius > WIDTH 
+    return (tempBallPosition.x + ballRadius > app.WIDTH 
             || tempBallPosition.x - ballRadius < 0);
 }
 
@@ -124,16 +123,16 @@ function hasBallHitTop() {
  * or whether it's too late/early
  */
 function isBallNearPaddle() {
-    return (tempBallPosition.y + ballRadius >= HEIGHT - paddleh + PADDLE_POSITION_OFFSET.y);
+    return (tempBallPosition.y + ballRadius >= app.HEIGHT - app.paddleh + app.PADDLE_POSITION_OFFSET.y);
 }
 
 function hasBallHitPaddle() {
-    return (ballPosition.x > paddlePosition.x && ballPosition.x < paddlePosition.x + paddlew);
+    return (ballPosition.x > paddlePosition.x && ballPosition.x < paddlePosition.x + app.paddlew);
 }
 
 function isBallOutOfBounds() {
-    return (tempBallPosition.y + ballRadius >= HEIGHT);
+    return (tempBallPosition.y + ballRadius >= app.HEIGHT);
 }
 
-var intervalId = init();
-initbricks();
+var intervalId = app.init();
+app.initBricks();
