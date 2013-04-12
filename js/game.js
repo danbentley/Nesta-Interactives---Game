@@ -3,8 +3,18 @@ define(['app'], function() {
     return {
 
         app: null,
+        ctx: null,
+        ROW_COUNT: 5,
+        MAX_ROW_COUNT: 7,
+        COL_COUNT: 27,
+        BRICKWIDTH: 0,
+        BRICKHEIGHT: 18,
+        PADDING: 1,
+        bricks: [],
         drawIntervalId: null,
+        addRowIntervalId: null,
         ballRadius: 9,
+        rowcolors: ["#f2665e", "#fcb040", "#6ac071", "#57cbf5", "#f2665e"],
         paddlecolor: "#656565",
         ballcolor: "#f2665e",
         backcolor: "#f4f0ed",
@@ -28,11 +38,14 @@ define(['app'], function() {
 
         init: function(app) {
             this.app = app;
+            this.app.init();
+            this.ctx = this.app.ctx;
             drawIntervalId = setInterval($.proxy(function() {
                 this.draw();
             }, this), 10);
-            this.app.init();
-            this.app.initBricks();
+            this.BRICKWIDTH = (this.app.WIDTH / this.COL_COUNT) - 1;
+            this.initBricks();
+            this.startAddRowInterval();
             this.addListeners();
         },
 
@@ -44,10 +57,10 @@ define(['app'], function() {
         },
 
         draw: function() {
-            this.app.ctx.fillStyle = this.backcolor;
-            this.app.clear();
-            this.app.ctx.fillStyle = this.ballcolor;
-            this.app.circle(this.ballPosition.x, this.ballPosition.y, this.ballRadius);
+            this.ctx.fillStyle = this.backcolor;
+            this.clear();
+            this.ctx.fillStyle = this.ballcolor;
+            this.circle(this.ballPosition.x, this.ballPosition.y, this.ballRadius);
 
             this.paddlePosition = {
                 x: this.app.paddlex + this.app.PADDLE_POSITION_OFFSET.x,
@@ -60,7 +73,7 @@ define(['app'], function() {
             };
 
             this.drawPaddle();
-            this.app.drawBricks();
+            this.drawBricks();
             this.updateBricks();
 
             if (this.isBallOutOfBounds()) {
@@ -98,19 +111,82 @@ define(['app'], function() {
             };
         },
 
+        initBricks: function() {
+            for(var i=0; i < this.ROW_COUNT; i++) {
+                this.addRow();
+            }
+        },
+
+        addRow: function() {
+            // Prepend row
+            this.bricks.unshift(this.createRow());
+        },
+
+        createRow: function() {
+            var row = [];
+            for(var i=0; i < this.COL_COUNT; i++) {
+                row[i] = 1;
+            }
+            return row;
+        },
+
+        startAddRowInterval: function() {
+            this.addRowIntervalId = setInterval($.proxy(function() {
+                if (this.bricks.length < this.MAX_ROW_COUNT) {
+                    this.addRow();
+                }
+            }, this), 5000);
+        },
+
+        drawBricks: function() {
+            var rowCount = this.bricks.length;
+            for(var i=0; i < rowCount; i++) {
+                var row = this.bricks[i];
+
+                this.ctx.fillStyle = this.rowcolors[i];
+
+                var colCount = row.length;
+                for(var j=0; j < colCount; j++) {
+                    if (row[j] == 1) {
+                        this.rect((j * (this.BRICKWIDTH + this.PADDING)) + this.PADDING, 
+                                (i * (this.BRICKHEIGHT + this.PADDING)) + this.PADDING,
+                                this.BRICKWIDTH, this.BRICKHEIGHT);
+                    }
+                }
+            }
+        },
+
         updateBricks: function() {
             //want to learn about real collision detection? go read
             // http://www.harveycartel.org/metanet/tutorials/tutorialA.html
-            var rowheight = this.app.BRICKHEIGHT + this.app.PADDING;
-            var colwidth = this.app.BRICKWIDTH + this.app.PADDING;
+            var rowheight = this.BRICKHEIGHT + this.PADDING;
+            var colwidth = this.BRICKWIDTH + this.PADDING;
             var row = Math.floor(this.ballPosition.y / rowheight);
             var col = Math.floor(this.ballPosition.x / colwidth);
+            var rowCount = this.bricks.length
             //reverse the ball and mark the brick as broken
-            if (this.ballPosition.y < this.app.NROWS * rowheight && row >= 0 && col >= 0 && this.app.bricks[row][col] == 1) {
+            if (this.ballPosition.y < rowCount * rowheight && row >= 0 && col >= 0 && this.bricks[row][col] == 1) {
                 this.ballSpeed.y *= -1;
-                this.app.bricks[row][col] = 0;
+                this.bricks[row][col] = 0;
+                if (!this.isRowActive(this.bricks[row])) {
+                    this.bricks.splice(row, 1);
+                }
                 $(window).trigger('brick.destroyed');
             }
+        },
+
+        isRowActive: function(row) {
+            var isRowActive = false;
+            var rowLength = row.length;
+            for (var i=0; i < rowLength; i++) {
+                var col = row[i];
+                if (col == 1) {
+                    isRowActive = true;
+                    break;
+                }
+            };
+
+            return isRowActive;
         },
 
         drawPaddle: function() {
@@ -121,10 +197,10 @@ define(['app'], function() {
             } else if (this.app.leftDown && this.canPaddleMoveLeft()) {
                 this.app.paddlex -= 5;
             }
-            this.app.ctx.fillStyle = this.paddlecolor;
+            this.ctx.fillStyle = this.paddlecolor;
 
             // Draw paddle
-            this.app.rect(this.paddlePosition.x, this.paddlePosition.y, this.app.paddlew, this.app.paddleh);
+            this.rect(this.paddlePosition.x, this.paddlePosition.y, this.app.paddlew, this.app.paddleh);
         },
 
         canPaddleMoveLeft: function() {
@@ -158,6 +234,25 @@ define(['app'], function() {
 
         isBallOutOfBounds: function() {
             return (this.tempBallPosition.y + this.ballRadius >= this.app.HEIGHT);
+        },
+
+        circle: function(x,y,r) {
+            this.ctx.beginPath();
+            this.ctx.arc(x, y, r, 0, Math.PI*2, true);
+            this.ctx.closePath();
+            this.ctx.fill();
+        },
+
+        rect: function(x,y,w,h) {
+            this.ctx.beginPath();
+            this.ctx.rect(x, y, w, h);
+            this.ctx.closePath();
+            this.ctx.fill();
+        },
+
+        clear: function() {
+            this.ctx.clearRect(0, 0, this.app.WIDTH, this.app.HEIGHT);
+            this.rect(0, 0, this.app.WIDTH, this.app.HEIGHT);
         }
     }
 });
