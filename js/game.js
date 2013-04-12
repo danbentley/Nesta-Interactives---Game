@@ -116,15 +116,23 @@ define(['app'], function() {
         drawPaddle: function() {
 
             // Move paddle
-            if (this.app.rightDown) {
-                paddlex += 5;
-            } else if (this.app.leftDown) {
-                paddlex -= 5;
+            if (this.app.rightDown && this.canPaddleMoveRight()) {
+                this.app.paddlex += 5;
+            } else if (this.app.leftDown && this.canPaddleMoveLeft()) {
+                this.app.paddlex -= 5;
             }
             this.app.ctx.fillStyle = this.paddlecolor;
 
             // Draw paddle
             this.app.rect(this.paddlePosition.x, this.paddlePosition.y, this.app.paddlew, this.app.paddleh);
+        },
+
+        canPaddleMoveLeft: function() {
+            return (this.paddlePosition.x > 0);
+        },
+
+        canPaddleMoveRight: function() {
+            return (this.paddlePosition.x + this.app.paddlew < this.app.WIDTH);
         },
 
         hasBallHitWall: function() {
