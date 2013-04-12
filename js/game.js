@@ -168,8 +168,25 @@ define(['app'], function() {
             if (this.ballPosition.y < rowCount * rowheight && row >= 0 && col >= 0 && this.bricks[row][col] == 1) {
                 this.ballSpeed.y *= -1;
                 this.bricks[row][col] = 0;
+                if (!this.isRowActive(this.bricks[row])) {
+                    this.bricks.splice(row, 1);
+                }
                 $(window).trigger('brick.destroyed');
             }
+        },
+
+        isRowActive: function(row) {
+            var isRowActive = false;
+            var rowLength = row.length;
+            for (var i=0; i < rowLength; i++) {
+                var col = row[i];
+                if (col == 1) {
+                    isRowActive = true;
+                    break;
+                }
+            };
+
+            return isRowActive;
         },
 
         drawPaddle: function() {
