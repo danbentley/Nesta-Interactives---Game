@@ -83,7 +83,7 @@ define([], function() {
         drawLives: function() {
             var lives = this.currentLives;
             var markup = '';
-            for (var i=0; i < lives; i++) {
+            for(var i=0; i < lives; i++) {
                 markup += '<span class="available life">&times;</span>';
             }
             this.$currentLives.append(markup);

@@ -111,12 +111,22 @@ define(['app'], function() {
         },
 
         initBricks: function() {
-            for (i=0; i < this.NROWS; i++) {
-                this.bricks[i] = [];
-                for (j=0; j < this.NCOLS; j++) {
-                    this.bricks[i][j] = 1;
-                }
+            for(var i=0; i < this.NROWS; i++) {
+                this.addRow();
             }
+        },
+
+        addRow: function() {
+            // Prepend row
+            this.bricks.unshift(this.createRow());
+        },
+
+        createRow: function() {
+            var row = [];
+            for(var i=0; i < this.NCOLS; i++) {
+                row[i] = 1;
+            }
+            return row;
         },
 
         startAddRowInterval: function() {
@@ -125,17 +135,16 @@ define(['app'], function() {
             }, this), 10000);
         },
 
-        addRow: function() {
-            this.NROWS++;
-            this.initBricks();
-            this.drawBricks();
-        },
-
         drawBricks: function() {
-            for (i=0; i < this.NROWS; i++) {
+            var rowCount = this.bricks.length;
+            for(var i=0; i < rowCount; i++) {
+                var row = this.bricks[i];
+
                 this.ctx.fillStyle = this.rowcolors[i];
-                for (j=0; j < this.NCOLS; j++) {
-                    if (this.bricks[i][j] == 1) {
+
+                var colCount = row.length;
+                for(var j=0; j < colCount; j++) {
+                    if (row[j] == 1) {
                         this.rect((j * (this.BRICKWIDTH + this.PADDING)) + this.PADDING, 
                                 (i * (this.BRICKHEIGHT + this.PADDING)) + this.PADDING,
                                 this.BRICKWIDTH, this.BRICKHEIGHT);
@@ -151,8 +160,9 @@ define(['app'], function() {
             var colwidth = this.BRICKWIDTH + this.PADDING;
             var row = Math.floor(this.ballPosition.y / rowheight);
             var col = Math.floor(this.ballPosition.x / colwidth);
+            var rowCount = this.bricks.length
             //reverse the ball and mark the brick as broken
-            if (this.ballPosition.y < this.NROWS * rowheight && row >= 0 && col >= 0 && this.bricks[row][col] == 1) {
+            if (this.ballPosition.y < rowCount * rowheight && row >= 0 && col >= 0 && this.bricks[row][col] == 1) {
                 this.ballSpeed.y *= -1;
                 this.bricks[row][col] = 0;
                 $(window).trigger('brick.destroyed');
