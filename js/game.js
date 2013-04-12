@@ -38,7 +38,7 @@ define(['app'], function() {
 
         addListeners: function() {
             $(window).on('game.over', function() {
-                alert('Game over man, game over');
+                console.log('Game over man, game over');
                 clearInterval(drawIntervalId);
             });
         },
