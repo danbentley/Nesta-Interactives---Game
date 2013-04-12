@@ -60,7 +60,6 @@ define(['app'], function() {
             this.ctx.fillStyle = this.backcolor;
             this.clear();
             this.ctx.fillStyle = this.ballcolor;
-            this.circle(this.ballPosition.x, this.ballPosition.y, this.ballRadius);
 
             this.paddlePosition = {
                 x: this.app.paddlex + this.app.PADDLE_POSITION_OFFSET.x,
@@ -72,6 +71,7 @@ define(['app'], function() {
                 y: this.ballPosition.y + this.ballSpeed.y
             };
 
+            this.drawBall();
             this.drawPaddle();
             this.drawBricks();
             this.updateBricks();
@@ -191,6 +191,10 @@ define(['app'], function() {
             };
 
             return isRowActive;
+        },
+
+        drawBall: function() {
+            this.circle(this.ballPosition.x, this.ballPosition.y, this.ballRadius);
         },
 
         drawPaddle: function() {
