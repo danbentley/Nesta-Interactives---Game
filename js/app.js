@@ -1,98 +1,131 @@
-var x = 25;
-var y = 250;
-var dx = 1.5;
-var dy = -4;
-var ctx;
-var WIDTH;
-var HEIGHT;
-var paddlex;
-var paddleh = 10;
-var paddlew = 75;
-var rightDown = false;
-var leftDown = false;
-var canvasMinX = 0;
-var canvasMaxX = 0;
-var intervalId = 0;
-var bricks;
-var NROWS = 5;
-var NCOLS = 5;
-var BRICKWIDTH;
-var BRICKHEIGHT = 15;
-var PADDING = 1;
+define(['lib/array.shuffle'], function() {
 
-function init() {
-  ctx = $('#canvas')[0].getContext("2d");
-  WIDTH = $("#canvas").width();
-  HEIGHT = $("#canvas").height();
-  paddlex = WIDTH / 2;
-  BRICKWIDTH = (WIDTH/NCOLS) - 1;
-  canvasMinX = $("#canvas").offset().left;
-  canvasMaxX = canvasMinX + WIDTH;
-  intervalId = setInterval(draw, 10);
-  return intervalId;
-}
+    return {
 
-function circle(x,y,r) {
-  ctx.beginPath();
-  ctx.arc(x, y, r, 0, Math.PI*2, true);
-  ctx.closePath();
-  ctx.fill();
-}
+        x: 25,
+        y: 250,
+        dx: 1.5,
+        dy: -4,
+        ctx: null,
+        WIDTH: 0,
+        HEIGHT: 0,
+        rightDown: false,
+        leftDown: false,
+        canvasMinX: 0,
+        canvasMaxX: 0,
+        POINTS_PER_BRICK: 30,
+        score: 0,
+        $game: $('.game'),
+        $finalScore: $('.final-score'),
+        SCORE_COLOUR_CLASSES: ['red', 'green', 'blue', 'orange'],
+        $currentScore: $('#current-score'),
+        $currentLives: $('#lives'),
+        $playAgain: $('#play-again'),
+        currentLives: 3,
+        KEY_CODES: {
+            RIGHT: 39,
+            LEFT: 37
+        },
 
-function rect(x,y,w,h) {
-  ctx.beginPath();
-  ctx.rect(x,y,w,h);
-  ctx.closePath();
-  ctx.fill();
-}
+        init: function() {
+            this.ctx = $('#canvas')[0].getContext("2d");
+            this.WIDTH = $("#canvas").width();
+            this.HEIGHT = $("#canvas").height();
+            this.BRICKWIDTH = (this.WIDTH / this.NCOLS) - 1;
+            this.canvasMinX = $("#canvas").offset().left;
+            this.canvasMaxX = this.canvasMinX + this.WIDTH;
+            this.drawLives();
+            this.addListeners();
+        },
 
-function clear() {
-  ctx.clearRect(0, 0, WIDTH, HEIGHT);
-  rect(0,0,WIDTH,HEIGHT);
-}
+        addListeners: function() {
 
-function onKeyDown(evt) {
-  if (evt.keyCode == 39) rightDown = true;
-  else if (evt.keyCode == 37) leftDown = true;
-}
+            this.$playAgain.on('click', $.proxy(function(e) {
+                this.reset();
+                e.preventDefault();
+            }, this));
 
-function onKeyUp(evt) {
-  if (evt.keyCode == 39) rightDown = false;
-  else if (evt.keyCode == 37) leftDown = false;
-}
+            $(window).on('brick.destroyed', $.proxy(function() {
+                this.score += this.POINTS_PER_BRICK;
+                this.$currentScore.find('strong').html(this.score);
+            }, this));
 
-$(document).keydown(onKeyDown);
-$(document).keyup(onKeyUp);
+            $(window).on('player.died', $.proxy(function() {
+                this.currentLives--;
+                this.deductLife();
+                if (this.currentLives === 0) {
+                    $(window).trigger('game.over');
+                } 
+            }, this));
 
-function onMouseMove(evt) {
-  if (evt.pageX > canvasMinX && evt.pageX < canvasMaxX) {
-    paddlex = Math.max(evt.pageX - canvasMinX - (paddlew/2), 0);
-    paddlex = Math.min(WIDTH - paddlew, paddlex);
-  }
-}
+            $(window).on('game.over', $.proxy(function() {
+                this.$game.addClass('complete');
+                this.updateFinalScore();
+                clearInterval(this.drawIntervalId);
+            }, this));
 
-$(document).mousemove(onMouseMove);
+            $(document).keydown($.proxy(function(e) {
+                if (e.keyCode == this.KEY_CODES.RIGHT) {
+                    this.rightDown = true;
+                } else if (e.keyCode == this.KEY_CODES.LEFT) {
+                    this.leftDown = true;
+                }
+            }, this));
 
-function initbricks() {
-    bricks = new Array(NROWS);
-    for (i=0; i < NROWS; i++) {
-        bricks[i] = new Array(NCOLS);
-        for (j=0; j < NCOLS; j++) {
-            bricks[i][j] = 1;
+            $(document).keyup($.proxy(function(e) {
+                if (e.keyCode == this.KEY_CODES.RIGHT) {
+                    this.rightDown = false;
+                } else if (e.keyCode == this.KEY_CODES.LEFT) {
+                    this.leftDown = false;
+                }
+            }, this));
+
+            $(document).mousemove($.proxy(function(e) {
+                if (e.pageX > this.canvasMinX && e.pageX < this.canvasMaxX) {
+                    $(window).trigger('mouse.moved', [e.pageX, e.pageY]);
+                }
+            }, this));
+        },
+
+        reset: function() {
+            this.$game.removeClass('complete');
+            this.score = 0;
+            this.currentLives = 3;
+            this.drawLives();
+            $(window).trigger('game.reset');
+        },
+
+        drawLives: function() {
+            var lives = this.currentLives;
+            var markup = '';
+            for(var i=0; i < lives; i++) {
+                markup += '<span class="available life">&times;</span>';
+            }
+            this.$currentLives.html(markup);
+        },
+
+        deductLife: function() {
+            var availableLives = this.$currentLives.find('.available');
+            if (availableLives.length > 0) {
+                $(availableLives[0]).removeClass('available');
+            }
+        },
+
+        updateFinalScore: function() {
+            var score = this.score + '';
+            var scorePieces = score.split("");
+            var markup = '';
+
+            var colours = this.SCORE_COLOUR_CLASSES.shuffle();
+
+            var scorePiecesLength = scorePieces.length;
+            for (var i=0; i < scorePiecesLength; i++) {
+                var scorePart = scorePieces[i];
+                var colour = (i < colours.length) ? colours[i] : colours[i % colours.length];
+                markup += '<span class="number no-' + scorePart + ' ' + colour + '"></span>';
+            }
+
+            this.$finalScore.html(markup);
         }
     }
-}
-
-function drawbricks() {
-  for (i=0; i < NROWS; i++) {
-    ctx.fillStyle = rowcolors[i];
-    for (j=0; j < NCOLS; j++) {
-      if (bricks[i][j] == 1) {
-        rect((j * (BRICKWIDTH + PADDING)) + PADDING, 
-             (i * (BRICKHEIGHT + PADDING)) + PADDING,
-             BRICKWIDTH, BRICKHEIGHT);
-      }
-    }
-  }
-}
-
+});
