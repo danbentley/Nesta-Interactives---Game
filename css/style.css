@@ -142,13 +142,22 @@ h3 {
 
 .lives .life {
 	display:inline-block;
-	background:#f2665e;
-	width:15px;
-	height:15px;
+	background:#e9e4de;
+	color:#aaa;
+	width:10px;
+	height:10px;
+	line-height:10px;
 	margin:0 0 0 5px;
 	padding:0;
 	border-radius:10px;
 	text-align:center;
+	font-size:12px;
+	overflow:hidden;
+}
+
+.lives .available {
+	background:#f2665e;
+	text-indent:-100px;
 }
 
 .lives span strong {
