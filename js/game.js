@@ -4,9 +4,9 @@ define(['app'], function() {
 
         app: null,
         ctx: null,
-        ROW_COUNT: 5,
+        ROW_COUNT: 7,
         MAX_ROW_COUNT: 7,
-        COL_COUNT: 27,
+        COL_COUNT: 26,
         BRICKWIDTH: 0,
         BRICKHEIGHT: 18,
         PADDING: 2,
@@ -47,7 +47,7 @@ define(['app'], function() {
             this.app = app;
             this.app.init();
             this.ctx = this.app.ctx;
-            this.BRICKWIDTH = (this.app.WIDTH / this.COL_COUNT) - 1;
+            this.BRICKWIDTH = (this.app.WIDTH / this.COL_COUNT) - this.PADDING;
             this.initPaddle();
             this.initBricks();
             this.startDrawInterval();
@@ -265,7 +265,13 @@ define(['app'], function() {
         },
 
         hasBallHitPaddle: function() {
-            return (this.ballPosition.x > this.paddlePosition.x && this.ballPosition.x < this.paddlePosition.x + this.paddlew);
+            return (this.isBallMovingDown() 
+                    && this.ballPosition.x >= this.paddlePosition.x 
+                    && this.ballPosition.x <= this.paddlePosition.x + this.paddlew);
+        },
+
+        isBallMovingDown: function() {
+            return (this.ballSpeed.y > 0);
         },
 
         isBallOutOfBounds: function() {
