@@ -5,7 +5,7 @@ define(['app'], function() {
         app: null,
         ctx: null,
         ROW_COUNT: 5,
-        NCOLS: 27,
+        COL_COUNT: 27,
         BRICKWIDTH: 0,
         BRICKHEIGHT: 18,
         PADDING: 1,
@@ -42,7 +42,7 @@ define(['app'], function() {
             drawIntervalId = setInterval($.proxy(function() {
                 this.draw();
             }, this), 10);
-            this.BRICKWIDTH = (this.app.WIDTH / this.NCOLS) - 1;
+            this.BRICKWIDTH = (this.app.WIDTH / this.COL_COUNT) - 1;
             this.initBricks();
             this.startAddRowInterval();
             this.addListeners();
@@ -123,7 +123,7 @@ define(['app'], function() {
 
         createRow: function() {
             var row = [];
-            for(var i=0; i < this.NCOLS; i++) {
+            for(var i=0; i < this.COL_COUNT; i++) {
                 row[i] = 1;
             }
             return row;
