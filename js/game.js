@@ -11,6 +11,7 @@ define(['app'], function() {
         PADDING: 1,
         bricks: [],
         drawIntervalId: null,
+        addRowIntervalId: null,
         ballRadius: 9,
         rowcolors: ["#f2665e", "#fcb040", "#6ac071", "#57cbf5", "#f2665e"],
         paddlecolor: "#656565",
@@ -43,6 +44,7 @@ define(['app'], function() {
             }, this), 10);
             this.BRICKWIDTH = (this.app.WIDTH / this.NCOLS) - 1;
             this.initBricks();
+            this.startAddRowInterval();
             this.addListeners();
         },
 
@@ -109,13 +111,24 @@ define(['app'], function() {
         },
 
         initBricks: function() {
-            this.bricks = new Array(this.NROWS);
             for (i=0; i < this.NROWS; i++) {
-                this.bricks[i] = new Array(this.NCOLS);
+                this.bricks[i] = [];
                 for (j=0; j < this.NCOLS; j++) {
                     this.bricks[i][j] = 1;
                 }
             }
+        },
+
+        startAddRowInterval: function() {
+            this.addRowIntervalId = setInterval($.proxy(function() {
+                this.addRow();
+            }, this), 10000);
+        },
+
+        addRow: function() {
+            this.NROWS++;
+            this.initBricks();
+            this.drawBricks();
         },
 
         drawBricks: function() {
