@@ -148,12 +148,16 @@ define(['app'], function() {
                 var colCount = row.length;
                 for(var j=0; j < colCount; j++) {
                     if (row[j] == 1) {
-                        this.rect((j * (this.BRICKWIDTH + this.PADDING)) + this.PADDING, 
-                                (i * (this.BRICKHEIGHT + this.PADDING)) + this.PADDING,
-                                this.BRICKWIDTH, this.BRICKHEIGHT);
+                        this.drawBrickForRowAndColumn(i, j);
                     }
                 }
             }
+        },
+
+        drawBrickForRowAndColumn: function(row, column) {
+            var x = (column * (this.BRICKWIDTH + this.PADDING)) + this.PADDING;
+            var y = (row * (this.BRICKHEIGHT + this.PADDING)) + this.PADDING;
+            this.rect(x, y, this.BRICKWIDTH, this.BRICKHEIGHT);
         },
 
         updateBricks: function() {
@@ -238,7 +242,7 @@ define(['app'], function() {
 
         circle: function(x,y,r) {
             this.ctx.beginPath();
-            this.ctx.arc(x, y, r, 0, Math.PI*2, true);
+            this.ctx.arc(x, y, r, 0, Math.PI * 2, true);
             this.ctx.closePath();
             this.ctx.fill();
         },
