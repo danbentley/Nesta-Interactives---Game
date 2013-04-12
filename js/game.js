@@ -4,7 +4,7 @@ define(['app'], function() {
 
         app: null,
         ctx: null,
-        NROWS: 5,
+        ROW_COUNT: 5,
         NCOLS: 27,
         BRICKWIDTH: 0,
         BRICKHEIGHT: 18,
@@ -111,7 +111,7 @@ define(['app'], function() {
         },
 
         initBricks: function() {
-            for(var i=0; i < this.NROWS; i++) {
+            for(var i=0; i < this.ROW_COUNT; i++) {
                 this.addRow();
             }
         },
