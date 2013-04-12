@@ -33,6 +33,7 @@ define(['app'], function() {
             }, this), 10);
             this.app.init();
             this.app.initBricks();
+            this.addListeners();
         },
 
         addListeners: function() {
