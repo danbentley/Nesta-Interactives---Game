@@ -10,7 +10,6 @@ define([], function() {
         WIDTH: 0,
         HEIGHT: 0,
         paddlex: 0,
-        paddleh: 13,
         paddlew: 110,
         rightDown: false,
         leftDown: false,
