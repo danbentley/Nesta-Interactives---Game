@@ -1,6 +1,5 @@
 define(['lib/array.shuffle'], function() {
 
-
     return {
 
         x: 25,
@@ -21,6 +20,7 @@ define(['lib/array.shuffle'], function() {
         SCORE_COLOUR_CLASSES: ['red', 'green', 'blue', 'orange'],
         $currentScore: $('#current-score'),
         $currentLives: $('#lives'),
+        $playAgain: $('#play-again'),
         currentLives: 3,
         KEY_CODES: {
             RIGHT: 39,
@@ -39,6 +39,12 @@ define(['lib/array.shuffle'], function() {
         },
 
         addListeners: function() {
+
+            this.$playAgain.on('click', $.proxy(function(e) {
+                this.reset();
+                e.preventDefault();
+            }, this));
+
             $(window).on('brick.destroyed', $.proxy(function() {
                 this.score += this.POINTS_PER_BRICK;
                 this.$currentScore.find('strong').html(this.score);
@@ -81,13 +87,21 @@ define(['lib/array.shuffle'], function() {
             }, this));
         },
 
+        reset: function() {
+            this.$game.removeClass('complete');
+            this.score = 0;
+            this.currentLives = 3;
+            this.drawLives();
+            $(window).trigger('game.reset');
+        },
+
         drawLives: function() {
             var lives = this.currentLives;
             var markup = '';
             for(var i=0; i < lives; i++) {
                 markup += '<span class="available life">&times;</span>';
             }
-            this.$currentLives.append(markup);
+            this.$currentLives.html(markup);
         },
 
         deductLife: function() {
