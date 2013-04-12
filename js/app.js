@@ -32,6 +32,10 @@ define([], function() {
         $currentLives: $('#lives'),
         rowcolors: ["#f2665e", "#fcb040", "#6ac071", "#57cbf5", "#f2665e"],
         currentLives: 3,
+        KEY_CODES: {
+            RIGHT: 39,
+            LEFT: 37
+        },
 
         init: function() {
             this.ctx = $('#canvas')[0].getContext("2d");
@@ -60,17 +64,17 @@ define([], function() {
             }, this));
 
             $(document).keydown($.proxy(function(e) {
-                if (e.keyCode == 39) {
+                if (e.keyCode == this.KEY_CODES.RIGHT) {
                     this.rightDown = true;
-                } else if (e.keyCode == 37) {
+                } else if (e.keyCode == this.KEY_CODES.LEFT) {
                     this.leftDown = true;
                 }
             }, this));
 
             $(document).keyup($.proxy(function(e) {
-                if (e.keyCode == 39) {
+                if (e.keyCode == this.KEY_CODES.RIGHT) {
                     this.rightDown = false;
-                } else if (e.keyCode == 37) {
+                } else if (e.keyCode == this.KEY_CODES.LEFT) {
                     this.leftDown = false;
                 }
             }, this));
