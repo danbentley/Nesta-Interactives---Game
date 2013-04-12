@@ -1,3 +1,3 @@
 require(['app', 'game'], function(app, game) {
-    game.init();
+    game.init(app);
 });
