@@ -5,6 +5,7 @@ define(['app'], function() {
         app: null,
         ctx: null,
         ROW_COUNT: 5,
+        MAX_ROW_COUNT: 7,
         COL_COUNT: 27,
         BRICKWIDTH: 0,
         BRICKHEIGHT: 18,
@@ -131,8 +132,10 @@ define(['app'], function() {
 
         startAddRowInterval: function() {
             this.addRowIntervalId = setInterval($.proxy(function() {
-                this.addRow();
-            }, this), 10000);
+                if (this.bricks.length < this.MAX_ROW_COUNT) {
+                    this.addRow();
+                }
+            }, this), 5000);
         },
 
         drawBricks: function() {
