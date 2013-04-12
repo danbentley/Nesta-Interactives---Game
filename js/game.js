@@ -8,6 +8,7 @@ define(['app'], function() {
         paddlecolor: "#656565",
         ballcolor: "#f2665e",
         backcolor: "#f4f0ed",
+        $game: $('.game'),
         paddlePosition: {
             x: 0,
             y: 0
@@ -28,7 +29,7 @@ define(['app'], function() {
 
         init: function(app) {
             this.app = app;
-            drawIntervalId = setInterval($.proxy(function() {
+            this.drawIntervalId = setInterval($.proxy(function() {
                 this.draw();
             }, this), 10);
             this.app.init();
@@ -37,10 +38,10 @@ define(['app'], function() {
         },
 
         addListeners: function() {
-            $(window).on('game.over', function() {
-                console.log('Game over man, game over');
-                clearInterval(drawIntervalId);
-            });
+            $(window).on('game.over', $.proxy(function() {
+                this.$game.addClass('complete');
+                clearInterval(this.drawIntervalId);
+            }, this));
         },
 
         draw: function() {

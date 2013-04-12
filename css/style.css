@@ -173,13 +173,13 @@ h3 {
 }
 
 
-
-
-
-
-
 /* END SCREEN */
+.complete .end-screen {
+	display:block;
+}
+
 .end-screen {
+	display:none;
 	position: absolute;
 	top: 0;
 	left: 0;
