@@ -25,13 +25,15 @@ define(['app'], function(app) {
 
     $(window).on('game.over', function() {
         alert('Game over man, game over');
-        clearInterval(intervalId);
+        clearInterval(drawIntervalId);
     });
 
     function init() {
         drawIntervalId = setInterval(function() {
             draw();
         }, 10);
+        app.init();
+        app.initBricks();
     }
 
     function draw() {
@@ -144,6 +146,4 @@ define(['app'], function(app) {
     }
 
     init();
-    app.init();
-    app.initBricks();
 });

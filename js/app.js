@@ -56,9 +56,7 @@ define([], function() {
                 this.updateLives();
                 if (this.currentLives === 0) {
                     $(window).trigger('game.over');
-                } else {
-                    restart();
-                }
+                } 
             }, this));
 
             $(document).keydown($.proxy(function(e) {
