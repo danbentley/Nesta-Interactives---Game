@@ -134,14 +134,16 @@ h3 {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-}
-.lives span {
 	font: normal 0.7em/1 'MuseoSlab500', Helvetica, Sans-serif;
-	text-transform: uppercase;
-	display: block;
 	background-color: rgba(255,255,255,0.5);
-	padding: 3px 10px 2px;
+	text-transform: uppercase;
 	color: #656565;
+	padding: 3px 10px 2px;
+}
+.lives span {	
+
+	
+	
 }
 
 .lives .life {
@@ -157,6 +159,8 @@ h3 {
 	text-align:center;
 	font-size:10px;
 	overflow:hidden;
+	top:-1px;
+	position: relative;
 }
 
 .lives .available {
@@ -173,13 +177,13 @@ h3 {
 }
 
 
-/* END SCREEN */
-.complete .end-screen {
-	display:block;
-}
 
+
+
+
+
+/* END SCREEN */
 .end-screen {
-	display:none;
 	position: absolute;
 	top: 0;
 	left: 0;
