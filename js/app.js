@@ -9,8 +9,6 @@ define([], function() {
         ctx: null,
         WIDTH: 0,
         HEIGHT: 0,
-        paddlex: 0,
-        paddlew: 110,
         rightDown: false,
         leftDown: false,
         canvasMinX: 0,
@@ -30,7 +28,6 @@ define([], function() {
             this.WIDTH = $("#canvas").width();
             this.HEIGHT = $("#canvas").height();
             this.BRICKWIDTH = (this.WIDTH / this.NCOLS) - 1;
-            this.paddlex = (this.WIDTH - this.paddlew) / 2;
             this.canvasMinX = $("#canvas").offset().left;
             this.canvasMaxX = this.canvasMinX + this.WIDTH;
             this.drawLives();
@@ -69,8 +66,7 @@ define([], function() {
 
             $(document).mousemove($.proxy(function(e) {
                 if (e.pageX > this.canvasMinX && e.pageX < this.canvasMaxX) {
-                    this.paddlex = Math.max(e.pageX - this.canvasMinX - (this.paddlew / 2), 0);
-                    this.paddlex = Math.min(this.WIDTH - this.paddlew, this.paddlex);
+                    $(window).trigger('mouse.moved', [e.pageX, e.pageY]);
                 }
             }, this));
         },
