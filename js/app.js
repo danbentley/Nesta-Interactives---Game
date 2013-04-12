@@ -15,7 +15,7 @@ define(['lib/array.shuffle'], function() {
         canvasMinX: 0,
         canvasMaxX: 0,
         POINTS_PER_BRICK: 30,
-        score: 100000,
+        score: 0,
         $game: $('.game'),
         $finalScore: $('.final-score'),
         SCORE_COLOUR_CLASSES: ['red', 'green', 'blue', 'orange'],
