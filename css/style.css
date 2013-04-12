@@ -126,7 +126,7 @@ h3 {
 .lives {
 	position: absolute;
 	bottom: 10px;
-	left: 100px;
+	right: 10px;
 	z-index: 10;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -142,6 +142,26 @@ h3 {
 	background-color: rgba(255,255,255,0.5);
 	padding: 3px 10px 2px;
 	color: #656565;
+}
+
+.lives .life {
+	display:inline-block;
+	background:#e9e4de;
+	color:#aaa;
+	width:10px;
+	height:10px;
+	line-height:10px;
+	margin:0 0 0 5px;
+	padding:0;
+	border-radius:10px;
+	text-align:center;
+	font-size:10px;
+	overflow:hidden;
+}
+
+.lives .available {
+	background:#f2665e;
+	text-indent:-100px;
 }
 
 .lives span strong {

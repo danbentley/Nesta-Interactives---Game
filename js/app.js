@@ -45,7 +45,7 @@ define([], function() {
             this.BRICKWIDTH = (this.WIDTH / this.NCOLS) - 1;
             this.canvasMinX = $("#canvas").offset().left;
             this.canvasMaxX = this.canvasMinX + this.WIDTH;
-            this.updateLives();
+            this.drawLives();
             this.addListeners();
         },
 
@@ -57,7 +57,7 @@ define([], function() {
 
             $(window).on('player.died', $.proxy(function() {
                 this.currentLives--;
-                this.updateLives();
+                this.deductLife();
                 if (this.currentLives === 0) {
                     $(window).trigger('game.over');
                 } 
@@ -87,8 +87,20 @@ define([], function() {
             }, this));
         },
 
-        updateLives: function() {
-            this.$currentLives.find('strong').html(this.currentLives);
+        drawLives: function() {
+            var lives = this.currentLives;
+            var markup = '';
+            for (var i=0; i < lives; i++) {
+                markup += '<span class="available life">&times;</span>';
+            }
+            this.$currentLives.append(markup);
+        },
+
+        deductLife: function() {
+            var availableLives = this.$currentLives.find('.available');
+            if (availableLives.length > 0) {
+                $(availableLives[0]).removeClass('available');
+            }
         },
 
         circle: function(x,y,r) {
