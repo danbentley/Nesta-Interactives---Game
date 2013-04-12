@@ -18,7 +18,6 @@ define(['app'], function() {
         paddlecolor: "#656565",
         ballcolor: "#f2665e",
         backcolor: "#f4f0ed",
-        $game: $('.game'),
         paddleh: 13,
         paddlew: 110,
         paddlex: 0,
@@ -60,7 +59,6 @@ define(['app'], function() {
 
         addListeners: function() {
             $(window).on('game.over', $.proxy(function() {
-                this.$game.addClass('complete');
                 clearInterval(this.drawIntervalId);
             }, this));
 

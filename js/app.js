@@ -1,4 +1,5 @@
-define([], function() {
+define(['lib/array.shuffle'], function() {
+
 
     return {
 
@@ -15,6 +16,9 @@ define([], function() {
         canvasMaxX: 0,
         POINTS_PER_BRICK: 30,
         score: 0,
+        $game: $('.game'),
+        $finalScore: $('.final-score'),
+        SCORE_COLOUR_CLASSES: ['red', 'green', 'blue', 'orange'],
         $currentScore: $('#current-score'),
         $currentLives: $('#lives'),
         currentLives: 3,
@@ -46,6 +50,12 @@ define([], function() {
                 if (this.currentLives === 0) {
                     $(window).trigger('game.over');
                 } 
+            }, this));
+
+            $(window).on('game.over', $.proxy(function() {
+                this.$game.addClass('complete');
+                this.updateFinalScore();
+                clearInterval(this.drawIntervalId);
             }, this));
 
             $(document).keydown($.proxy(function(e) {
@@ -85,6 +95,23 @@ define([], function() {
             if (availableLives.length > 0) {
                 $(availableLives[0]).removeClass('available');
             }
+        },
+
+        updateFinalScore: function() {
+            var score = this.score + '';
+            var scorePieces = score.split("");
+            var markup = '';
+
+            var colours = this.SCORE_COLOUR_CLASSES.shuffle();
+
+            var scorePiecesLength = scorePieces.length;
+            for (var i=0; i < scorePiecesLength; i++) {
+                var scorePart = scorePieces[i];
+                var colour = colours[i];
+                markup += '<span class="number no-' + scorePart + ' ' + colour + '"></span>';
+            }
+
+            this.$finalScore.html(markup);
         }
     }
 });
