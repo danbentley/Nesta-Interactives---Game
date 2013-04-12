@@ -9,7 +9,7 @@ define(['app'], function() {
         COL_COUNT: 27,
         BRICKWIDTH: 0,
         BRICKHEIGHT: 18,
-        PADDING: 1,
+        PADDING: 2,
         bricks: [],
         drawIntervalId: null,
         addRowIntervalId: null,
@@ -18,6 +18,13 @@ define(['app'], function() {
         paddlecolor: "#656565",
         ballcolor: "#f2665e",
         backcolor: "#f4f0ed",
+        paddleh: 13,
+        paddlew: 110,
+        paddlex: 0,
+        PADDLE_POSITION_OFFSET: {
+            x: 0,
+            y: -30
+        },
         paddlePosition: {
             x: 0,
             y: 0
@@ -44,6 +51,7 @@ define(['app'], function() {
                 this.draw();
             }, this), 10);
             this.BRICKWIDTH = (this.app.WIDTH / this.COL_COUNT) - 1;
+            this.initPaddle();
             this.initBricks();
             this.startAddRowInterval();
             this.addListeners();
@@ -54,16 +62,20 @@ define(['app'], function() {
                 console.log('Game over man, game over');
                 clearInterval(drawIntervalId);
             });
+
+            $(window).on('mouse.moved', $.proxy(function(e, x, y) {
+                this.paddlex = Math.max(x - this.app.canvasMinX - (this.paddlew / 2), 0);
+                this.paddlex = Math.min(this.app.WIDTH - this.paddlew, this.paddlex);
+            }, this));
         },
 
         draw: function() {
             this.ctx.fillStyle = this.backcolor;
             this.clear();
-            this.ctx.fillStyle = this.ballcolor;
 
             this.paddlePosition = {
-                x: this.app.paddlex + this.app.PADDLE_POSITION_OFFSET.x,
-                y: this.app.HEIGHT - this.app.paddleh + this.app.PADDLE_POSITION_OFFSET.y
+                x: this.paddlex + this.PADDLE_POSITION_OFFSET.x,
+                y: this.app.HEIGHT - this.paddleh + this.PADDLE_POSITION_OFFSET.y
             };
 
             this.tempBallPosition = {
@@ -90,7 +102,7 @@ define(['app'], function() {
                 // Ball has hit paddle
                 if (this.hasBallHitPaddle()) {
                     //move the ball differently based on where it hit the paddle
-                    this.ballSpeed.x = 8 * ((this.ballPosition.x - (this.app.paddlex + this.app.paddlew / 2)) / this.app.paddlew);
+                    this.ballSpeed.x = 8 * ((this.ballPosition.x - (this.paddlex + this.paddlew / 2)) / this.paddlew);
                     this.ballSpeed.y *= -1;
                 } 
             } else if (this.hasBallHitTop()) {
@@ -109,6 +121,10 @@ define(['app'], function() {
                 x: 1.5,
                 y: -4,
             };
+        },
+
+        initPaddle: function() {
+            this.paddlex = (this.app.WIDTH - this.paddlew) / 2;
         },
 
         initBricks: function() {
@@ -194,6 +210,7 @@ define(['app'], function() {
         },
 
         drawBall: function() {
+            this.ctx.fillStyle = this.ballcolor;
             this.circle(this.ballPosition.x, this.ballPosition.y, this.ballRadius);
         },
 
@@ -201,14 +218,12 @@ define(['app'], function() {
 
             // Move paddle
             if (this.app.rightDown && this.canPaddleMoveRight()) {
-                this.app.paddlex += 5;
+                this.paddlex += 5;
             } else if (this.app.leftDown && this.canPaddleMoveLeft()) {
-                this.app.paddlex -= 5;
+                this.paddlex -= 5;
             }
             this.ctx.fillStyle = this.paddlecolor;
-
-            // Draw paddle
-            this.rect(this.paddlePosition.x, this.paddlePosition.y, this.app.paddlew, this.app.paddleh);
+            this.rect(this.paddlePosition.x, this.paddlePosition.y, this.paddlew, this.paddleh);
         },
 
         canPaddleMoveLeft: function() {
@@ -216,7 +231,7 @@ define(['app'], function() {
         },
 
         canPaddleMoveRight: function() {
-            return (this.paddlePosition.x + this.app.paddlew < this.app.WIDTH);
+            return (this.paddlePosition.x + this.paddlew < this.app.WIDTH);
         },
 
         hasBallHitWall: function() {
@@ -233,11 +248,11 @@ define(['app'], function() {
          * or whether it's too late/early
          */
         isBallNearPaddle: function() {
-            return (this.tempBallPosition.y + this.ballRadius >= this.app.HEIGHT - this.app.paddleh + this.app.PADDLE_POSITION_OFFSET.y);
+            return (this.tempBallPosition.y + this.ballRadius >= this.app.HEIGHT - this.paddleh + this.PADDLE_POSITION_OFFSET.y);
         },
 
         hasBallHitPaddle: function() {
-            return (this.ballPosition.x > this.paddlePosition.x && this.ballPosition.x < this.paddlePosition.x + this.app.paddlew);
+            return (this.ballPosition.x > this.paddlePosition.x && this.ballPosition.x < this.paddlePosition.x + this.paddlew);
         },
 
         isBallOutOfBounds: function() {
