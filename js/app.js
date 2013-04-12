@@ -15,7 +15,7 @@ define(['lib/array.shuffle'], function() {
         canvasMinX: 0,
         canvasMaxX: 0,
         POINTS_PER_BRICK: 30,
-        score: 0,
+        score: 100000,
         $game: $('.game'),
         $finalScore: $('.final-score'),
         SCORE_COLOUR_CLASSES: ['red', 'green', 'blue', 'orange'],
@@ -107,7 +107,7 @@ define(['lib/array.shuffle'], function() {
             var scorePiecesLength = scorePieces.length;
             for (var i=0; i < scorePiecesLength; i++) {
                 var scorePart = scorePieces[i];
-                var colour = colours[i];
+                var colour = (i < colours.length) ? colours[i] : colours[i % colours.length];
                 markup += '<span class="number no-' + scorePart + ' ' + colour + '"></span>';
             }
 
