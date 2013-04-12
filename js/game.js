@@ -1,139 +1,155 @@
-var ballRadius = 9;
-var rowcolors = ["#f2665e", "#fcb040", "#6ac071", "#57cbf5", "#f2665e"];
-var paddlecolor = "#656565";
-var ballcolor = "#f2665e";
-var backcolor = "#f4f0ed";
-var paddlePosition = {
-    x: 0,
-    y: 0
-};
-var ballPosition = {
-    x: 25,
-    y: 250,
-}
-var ballSpeed = {
-    x: 1.5,
-    y: -4,
-}
-// Used to calculate where the ball is going/what it's hitting
-var tempBallPosition = {
-    x: 0,
-    y: 0,
-}
+define(['app'], function() {
 
-$(window).on('game.over', function() {
-    alert('Game over man, game over');
-    clearInterval(intervalId);
+    return {
+
+        app: null,
+        drawIntervalId: null,
+        ballRadius: 9,
+        paddlecolor: "#656565",
+        ballcolor: "#f2665e",
+        backcolor: "#f4f0ed",
+        paddlePosition: {
+            x: 0,
+            y: 0
+        },
+        ballPosition: {
+            x: 25,
+            y: 250,
+        },
+        ballSpeed: {
+            x: 1.5,
+            y: -4,
+        },
+        // Used to calculate where the ball is going/what it's hitting
+        tempBallPosition: {
+            x: 0,
+            y: 0,
+        },
+
+        init: function(app) {
+            this.app = app;
+            drawIntervalId = setInterval($.proxy(function() {
+                this.draw();
+            }, this), 10);
+            this.app.init();
+            this.app.initBricks();
+            this.addListeners();
+        },
+
+        addListeners: function() {
+            $(window).on('game.over', function() {
+                alert('Game over man, game over');
+                clearInterval(drawIntervalId);
+            });
+        },
+
+        draw: function() {
+            this.app.ctx.fillStyle = this.backcolor;
+            this.app.clear();
+            this.app.ctx.fillStyle = this.ballcolor;
+            this.app.circle(this.ballPosition.x, this.ballPosition.y, this.ballRadius);
+
+            this.paddlePosition = {
+                x: this.app.paddlex + this.app.PADDLE_POSITION_OFFSET.x,
+                y: this.app.HEIGHT - this.app.paddleh + this.app.PADDLE_POSITION_OFFSET.y
+            };
+
+            this.tempBallPosition = {
+                x: this.ballPosition.x + this.ballSpeed.x,
+                y: this.ballPosition.y + this.ballSpeed.y
+            };
+
+            this.drawPaddle();
+            this.app.drawBricks();
+            this.updateBricks();
+
+            if (this.isBallOutOfBounds()) {
+                $(window).trigger('player.died');
+                return this.restart();
+            }
+
+            // If the ball has hit the wall
+            if (this.hasBallHitWall()) {
+                this.ballSpeed.x *= -1;
+            }
+
+            if (this.isBallNearPaddle()) {
+                // Ball has hit paddle
+                if (this.hasBallHitPaddle()) {
+                    //move the ball differently based on where it hit the paddle
+                    this.ballSpeed.x = 8 * ((this.ballPosition.x - (this.app.paddlex + this.app.paddlew / 2)) / this.app.paddlew);
+                    this.ballSpeed.y *= -1;
+                } 
+            } else if (this.hasBallHitTop()) {
+                this.ballSpeed.y *= -1;
+            }
+
+            this.ballPosition = this.tempBallPosition;
+        },
+
+        restart: function() {
+            this.ballPosition = {
+                x: 25,
+                y: 250,
+            };
+            this.ballSpeed = {
+                x: 1.5,
+                y: -4,
+            };
+        },
+
+        updateBricks: function() {
+            //want to learn about real collision detection? go read
+            // http://www.harveycartel.org/metanet/tutorials/tutorialA.html
+            var rowheight = this.app.BRICKHEIGHT + this.app.PADDING;
+            var colwidth = this.app.BRICKWIDTH + this.app.PADDING;
+            var row = Math.floor(this.ballPosition.y / rowheight);
+            var col = Math.floor(this.ballPosition.x / colwidth);
+            //reverse the ball and mark the brick as broken
+            if (this.ballPosition.y < this.app.NROWS * rowheight && row >= 0 && col >= 0 && this.app.bricks[row][col] == 1) {
+                this.ballSpeed.y *= -1;
+                this.app.bricks[row][col] = 0;
+                $(window).trigger('brick.destroyed');
+            }
+        },
+
+        drawPaddle: function() {
+
+            // Move paddle
+            if (this.app.rightDown) {
+                paddlex += 5;
+            } else if (this.app.leftDown) {
+                paddlex -= 5;
+            }
+            this.app.ctx.fillStyle = this.paddlecolor;
+
+            // Draw paddle
+            this.app.rect(this.paddlePosition.x, this.paddlePosition.y, this.app.paddlew, this.app.paddleh);
+        },
+
+        hasBallHitWall: function() {
+            return (this.tempBallPosition.x + this.ballRadius > this.app.WIDTH 
+                    || this.tempBallPosition.x - this.ballRadius < 0);
+        },
+
+        hasBallHitTop: function() {
+            return (this.ballPosition.y + this.ballSpeed.y - this.ballRadius < 0);
+        },
+
+        /**
+         * Is the ball about to hit the paddle. Check whether the ball is currently hittable
+         * or whether it's too late/early
+         */
+        isBallNearPaddle: function() {
+            return (this.tempBallPosition.y + this.ballRadius >= this.app.HEIGHT - this.app.paddleh + this.app.PADDLE_POSITION_OFFSET.y);
+        },
+
+        hasBallHitPaddle: function() {
+            return (this.ballPosition.x > this.paddlePosition.x && this.ballPosition.x < this.paddlePosition.x + this.app.paddlew);
+        },
+
+        isBallOutOfBounds: function() {
+            return (this.tempBallPosition.y + this.ballRadius >= this.app.HEIGHT);
+        }
+    }
 });
-
-function draw() {
-    ctx.fillStyle = backcolor;
-    clear();
-    ctx.fillStyle = ballcolor;
-    circle(ballPosition.x, ballPosition.y, ballRadius);
-
-    paddlePosition = {
-        x: paddlex + PADDLE_POSITION_OFFSET.x,
-        y: HEIGHT - paddleh + PADDLE_POSITION_OFFSET.y
-    };
-
-    tempBallPosition = {
-        x: ballPosition.x + ballSpeed.x,
-        y: ballPosition.y + ballSpeed.y
-    };
-
-    drawPaddle();
-    drawbricks();
-    updateBricks();
-
-    if (isBallOutOfBounds()) {
-        $(window).trigger('player.died');
-        return restart();
-    }
-
-    // If the ball has hit the wall
-    if (hasBallHitWall()) {
-        ballSpeed.x *= -1;
-    }
-
-    if (isBallNearPaddle()) {
-        // Ball has hit paddle
-        if (hasBallHitPaddle()) {
-            //move the ball differently based on where it hit the paddle
-            ballSpeed.x = 8 * ((ballPosition.x - (paddlex + paddlew / 2)) / paddlew);
-            ballSpeed.y *= -1;
-        } 
-    } else if (hasBallHitTop()) {
-        ballSpeed.y *= -1;
-    }
-
-    ballPosition = tempBallPosition;
-}
-
-function restart() {
-    ballPosition = {
-        x: 25,
-        y: 250,
-    };
-    ballSpeed = {
-        x: 1.5,
-        y: -4,
-    };
-}
-
-function updateBricks() {
-    //want to learn about real collision detection? go read
-    // http://www.harveycartel.org/metanet/tutorials/tutorialA.html
-    rowheight = BRICKHEIGHT + PADDING;
-    colwidth = BRICKWIDTH + PADDING;
-    row = Math.floor(ballPosition.y / rowheight);
-    col = Math.floor(ballPosition.x / colwidth);
-    //reverse the ball and mark the brick as broken
-    if (ballPosition.y < NROWS * rowheight && row >= 0 && col >= 0 && bricks[row][col] == 1) {
-        ballSpeed.y *= -1;
-        bricks[row][col] = 0;
-        $(window).trigger('brick.destroyed');
-    }
-}
-
-function drawPaddle() {
-
-    // Move paddle
-    if (rightDown) {
-        paddlex += 5;
-    } else if (leftDown) {
-        paddlex -= 5;
-    }
-    ctx.fillStyle = paddlecolor;
-
-    // Draw paddle
-    rect(paddlePosition.x, paddlePosition.y, paddlew, paddleh);
-}
-
-function hasBallHitWall() {
-    return (tempBallPosition.x + ballRadius > WIDTH 
-            || tempBallPosition.x - ballRadius < 0);
-}
-
-function hasBallHitTop() {
-    return (ballPosition.y + ballSpeed.y - ballRadius < 0);
-}
-
-/**
- * Is the ball about to hit the paddle. Check whether the ball is currently hittable
- * or whether it's too late/early
- */
-function isBallNearPaddle() {
-    return (tempBallPosition.y + ballRadius >= HEIGHT - paddleh + PADDLE_POSITION_OFFSET.y);
-}
-
-function hasBallHitPaddle() {
-    return (ballPosition.x > paddlePosition.x && ballPosition.x < paddlePosition.x + paddlew);
-}
-
-function isBallOutOfBounds() {
-    return (tempBallPosition.y + ballRadius >= HEIGHT);
-}
-
-var intervalId = init();
-initbricks();
