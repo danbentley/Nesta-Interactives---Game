@@ -20,17 +20,10 @@ define([], function() {
         leftDown: false,
         canvasMinX: 0,
         canvasMaxX: 0,
-        bricks: [],
-        NROWS: 5,
-        NCOLS: 27,
-        BRICKWIDTH: 0,
-        BRICKHEIGHT: 18,
-        PADDING: 1,
         POINTS_PER_BRICK: 30,
         score: 0,
         $currentScore: $('#current-score'),
         $currentLives: $('#lives'),
-        rowcolors: ["#f2665e", "#fcb040", "#6ac071", "#57cbf5", "#f2665e"],
         currentLives: 3,
         KEY_CODES: {
             RIGHT: 39,
@@ -41,8 +34,8 @@ define([], function() {
             this.ctx = $('#canvas')[0].getContext("2d");
             this.WIDTH = $("#canvas").width();
             this.HEIGHT = $("#canvas").height();
-            this.paddlex = (this.WIDTH - this.paddlew) / 2;
             this.BRICKWIDTH = (this.WIDTH / this.NCOLS) - 1;
+            this.paddlex = (this.WIDTH - this.paddlew) / 2;
             this.canvasMinX = $("#canvas").offset().left;
             this.canvasMaxX = this.canvasMinX + this.WIDTH;
             this.drawLives();
@@ -100,48 +93,6 @@ define([], function() {
             var availableLives = this.$currentLives.find('.available');
             if (availableLives.length > 0) {
                 $(availableLives[0]).removeClass('available');
-            }
-        },
-
-        circle: function(x,y,r) {
-            this.ctx.beginPath();
-            this.ctx.arc(x, y, r, 0, Math.PI*2, true);
-            this.ctx.closePath();
-            this.ctx.fill();
-        },
-
-        rect: function(x,y,w,h) {
-            this.ctx.beginPath();
-            this.ctx.rect(x,y,w,h);
-            this.ctx.closePath();
-            this.ctx.fill();
-        },
-
-        clear: function() {
-            this.ctx.clearRect(0, 0, this.WIDTH, this.HEIGHT);
-            this.rect(0, 0, this.WIDTH, this.HEIGHT);
-        },
-
-        initBricks: function() {
-            this.bricks = new Array(this.NROWS);
-            for (i=0; i < this.NROWS; i++) {
-                this.bricks[i] = new Array(this.NCOLS);
-                for (j=0; j < this.NCOLS; j++) {
-                    this.bricks[i][j] = 1;
-                }
-            }
-        },
-
-        drawBricks: function() {
-            for (i=0; i < this.NROWS; i++) {
-                this.ctx.fillStyle = this.rowcolors[i];
-                for (j=0; j < this.NCOLS; j++) {
-                    if (this.bricks[i][j] == 1) {
-                        this.rect((j * (this.BRICKWIDTH + this.PADDING)) + this.PADDING, 
-                                (i * (this.BRICKHEIGHT + this.PADDING)) + this.PADDING,
-                                this.BRICKWIDTH, this.BRICKHEIGHT);
-                    }
-                }
             }
         }
     }
