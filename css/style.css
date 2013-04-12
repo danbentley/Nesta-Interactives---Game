@@ -234,25 +234,27 @@ h3 {
 	height:110px;
 	width: 64px;
 	display: inline-block;
-	background: red;
 	text-align: center;
+	overflow: hidden;
+	margin: 0 5px;
+	text-indent: -900em;
 }
 
-.final-score .no-0 {}
-.final-score .no-1 {}
-.final-score .no-2 {}
-.final-score .no-3 {}
-.final-score .no-4 {}
-.final-score .no-5 {}
-.final-score .no-6 {}
-.final-score .no-7 {}
-.final-score .no-8 {}
-.final-score .no-9 {}
+.final-score .no-0 { background-position:  -50px -50px; width:64px; }
+.final-score .no-1 { background-position: -150px -50px; width:49px; }
+.final-score .no-2 { background-position: -250px -50px; width:64px; }
+.final-score .no-3 { background-position: -350px -50px; width:64px; }
+.final-score .no-4 { background-position: -450px -50px; width:78px; }
+.final-score .no-5 { background-position: -550px -50px; width:64px; }
+.final-score .no-6 { background-position: -650px -50px; width:64px; }
+.final-score .no-7 { background-position: -750px -50px; width:60px; }
+.final-score .no-8 { background-position: -850px -50px; width:65px; }
+.final-score .no-9 { background-position: -950px -50px; width:63px; }
 
-.final-score .green {}
-.final-score .blue {}
-.final-score .orange {}
-.final-score .red {}
+.final-score .green { background-image: url('../images/score-numbers-green.png'); }
+.final-score .blue { background-image: url('../images/score-numbers-blue.png'); }
+.final-score .orange { background-image: url('../images/score-numbers-orange.png'); }
+.final-score .red { background-image: url('../images/score-numbers-red.png'); }
 
 
 
