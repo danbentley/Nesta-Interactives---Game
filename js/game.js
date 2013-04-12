@@ -15,9 +15,9 @@ define(['app'], function() {
         addRowIntervalId: null,
         ballRadius: 9,
         rowColours: ["#f2665e", "#fcb040", "#6ac071", "#57cbf5"],
-        paddlecolor: "#656565",
-        ballcolor: "#f2665e",
-        backcolor: "#f4f0ed",
+        paddleColour: "#656565",
+        ballColour: "#f2665e",
+        backColour: "#f4f0ed",
         paddleh: 13,
         paddlew: 110,
         paddlex: 0,
@@ -69,7 +69,7 @@ define(['app'], function() {
         },
 
         draw: function() {
-            this.ctx.fillStyle = this.backcolor;
+            this.ctx.fillStyle = this.backColour;
             this.clear();
 
             this.paddlePosition = {
@@ -209,7 +209,7 @@ define(['app'], function() {
         },
 
         drawBall: function() {
-            this.ctx.fillStyle = this.ballcolor;
+            this.ctx.fillStyle = this.ballColour;
             this.circle(this.ballPosition.x, this.ballPosition.y, this.ballRadius);
         },
 
@@ -221,7 +221,7 @@ define(['app'], function() {
             } else if (this.app.leftDown && this.canPaddleMoveLeft()) {
                 this.paddlex -= 5;
             }
-            this.ctx.fillStyle = this.paddlecolor;
+            this.ctx.fillStyle = this.paddleColour;
             this.rect(this.paddlePosition.x, this.paddlePosition.y, this.paddlew, this.paddleh);
         },
 
