@@ -2,8 +2,8 @@
 
 body {
 	background: #e9e4de;
-/*	padding: 0;
-	margin: 0; */
+	padding: 0;
+	margin: 0;
 }
 
 @font-face {
@@ -83,6 +83,7 @@ h3 {
 	padding: 0;
 	list-style: none;
 	width: 697px;
+	height: 354px;
 	float: left;
 	border-right: 1px #d1cdc2 solid;
 	overflow: hidden;
@@ -258,6 +259,53 @@ h3 {
 .final-score .orange { background-image: url('../images/score-numbers-orange.png'); }
 .final-score .red { background-image: url('../images/score-numbers-red.png'); }
 
+
+
+/* MESSAGE */
+.message-overlay {
+	background:#f4f0ed url('../images/game-disabled-bg.png') no-repeat 0 0;
+	width:100%;
+	height:100%;
+	z-index: 10;
+	position: absolute;
+	opacity: 0.65;
+	display: block;
+}
+.message {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	z-index: 20;
+	background: #fff;
+	border: 1px #d1cdc2 solid;
+	box-shadow: 0 0 5px #d1cdc2;
+	color: #656565;
+	margin: -92px 0 0 -209px;
+	height: 110px;
+	width: 400px;
+	padding: 30px 10px 20px;
+	text-align: center;
+	display: block;
+}
+
+.message h3 {
+	margin: 0 0 0.5em;
+	font: normal 1.625em 'MuseoSlab500', Helvetica, Sans-serif
+}
+
+.message p {
+	margin: 0 0 0.5em;
+	font: normal 0.95em/1.5 'MuseoSlab500', Helvetica, Sans-serif;
+}
+
+.message p strong {
+	color: #f2675e;
+	font-weight: normal;
+}
+
+.complete .message {
+	display: block;
+}
 
 
 
