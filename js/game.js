@@ -12,7 +12,9 @@ define(['app'], function() {
         PADDING: 2,
         bricks: [],
         drawIntervalId: null,
+        DRAW_INTERVAL_DELAY: 1,
         addRowIntervalId: null,
+        ADD_ROW_INTERVAL_DELAY: 5000,
         ballRadius: 9,
         rowColours: ["#57cbf5", "#6ac071", "#fcb040", "#f2665e"],
         paddleColour: "#656565",
@@ -77,9 +79,9 @@ define(['app'], function() {
         },
 
         startDrawInterval: function() {
-            this.drawIntervalId = setInterval($.proxy(function() {
+            this.drawIntervalId = window.setInterval($.proxy(function() {
                 this.draw();
-            }, this), 2);
+            }, this), this.DRAW_INTERVAL_DELAY);
         },
 
         draw: function() {
@@ -164,7 +166,7 @@ define(['app'], function() {
                 if (this.bricks.length < this.MAX_ROW_COUNT) {
                     this.addRow();
                 }
-            }, this), 5000);
+            }, this), this.ADD_ROW_INTERVAL_DELAY);
         },
 
         drawBricks: function() {
