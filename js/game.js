@@ -79,7 +79,7 @@ define(['app'], function() {
         startDrawInterval: function() {
             this.drawIntervalId = setInterval($.proxy(function() {
                 this.draw();
-            }, this), 10);
+            }, this), 2);
         },
 
         draw: function() {
@@ -131,8 +131,8 @@ define(['app'], function() {
                 y: 250,
             };
             this.ballSpeed = {
-                x: 1.5,
-                y: -4,
+                x: 1.6,
+                y: -2,
             };
         },
 
@@ -204,8 +204,7 @@ define(['app'], function() {
                 this.ballSpeed.y *= -1;
                 this.bricks[row][col] = 0;
                 if (!this.isLastRowActive()) {
-                    // Remove row
-                    this.bricks.splice(row, 1);
+                    this.removeLastRow();
                 }
                 $(window).trigger('brick.destroyed');
             }
@@ -224,6 +223,10 @@ define(['app'], function() {
             };
 
             return isRowActive;
+        },
+
+        removeLastRow: function() {
+            this.bricks.splice(this.bricks.length - 1, 1);
         },
 
         drawBall: function() {
