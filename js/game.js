@@ -34,8 +34,8 @@ define(['app'], function() {
             y: 250,
         },
         ballSpeed: {
-            x: 1.5,
-            y: -4,
+            x: 1.6,
+            y: -2,
         },
         // Used to calculate where the ball is going/what it's hitting
         tempBallPosition: {
