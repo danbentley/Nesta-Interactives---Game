@@ -14,9 +14,9 @@ define(['app'], function() {
         drawIntervalId: null,
         addRowIntervalId: null,
         ballRadius: 9,
-        rowColours: ["#f2665e", "#fcb040", "#6ac071", "#57cbf5"],
+        rowColours: ["#57cbf5", "#6ac071", "#fcb040", "#f2665e"],
         paddleColour: "#656565",
-        ballColour: "#f2665e",
+        ballColour: "#725d3c",
         backColour: "#f4f0ed",
         paddleh: 13,
         paddlew: 110,
@@ -172,7 +172,9 @@ define(['app'], function() {
             for(var i=0; i < rowCount; i++) {
                 var row = this.bricks[i];
 
-                this.ctx.fillStyle = (i < this.rowColours.length) ? this.rowColours[i] : this.rowColours[i % this.rowColours.length];
+                var index = rowCount - i;
+                var colourIndex = (index >= this.rowColours.length) ? index % this.rowColours.length : index;
+                this.ctx.fillStyle = this.rowColours[colourIndex];
 
                 var colCount = row.length;
                 for(var j=0; j < colCount; j++) {
