@@ -4,9 +4,9 @@ define(['app'], function() {
 
         app: null,
         ctx: null,
-        ROW_COUNT: 7,
-        MAX_ROW_COUNT: 7,
-        COL_COUNT: 26,
+        ROW_COUNT: 3,
+        MAX_ROW_COUNT: 8,
+        COL_COUNT: 25,
         BRICKWIDTH: 0,
         BRICKHEIGHT: 18,
         PADDING: 2,
@@ -201,18 +201,20 @@ define(['app'], function() {
             if (this.ballPosition.y < rowCount * rowheight && row >= 0 && col >= 0 && this.bricks[row][col] == 1) {
                 this.ballSpeed.y *= -1;
                 this.bricks[row][col] = 0;
-                if (!this.isRowActive(this.bricks[row])) {
+                if (!this.isLastRowActive()) {
+                    // Remove row
                     this.bricks.splice(row, 1);
                 }
                 $(window).trigger('brick.destroyed');
             }
         },
 
-        isRowActive: function(row) {
+        isLastRowActive: function() {
             var isRowActive = false;
-            var rowLength = row.length;
-            for (var i=0; i < rowLength; i++) {
-                var col = row[i];
+
+            var lastRow = this.bricks[this.bricks.length - 1];
+            for (var i=0; i < this.COL_COUNT; i++) {
+                var col = lastRow[i];
                 if (col == 1) {
                     isRowActive = true;
                     break;
@@ -248,8 +250,8 @@ define(['app'], function() {
         },
 
         hasBallHitWall: function() {
-            return (this.tempBallPosition.x + this.ballRadius > this.app.WIDTH 
-                    || this.tempBallPosition.x - this.ballRadius < 0);
+            return (this.tempBallPosition.x + this.ballRadius >= this.app.WIDTH 
+                    || this.tempBallPosition.x - this.ballRadius <= 0);
         },
 
         hasBallHitTop: function() {
