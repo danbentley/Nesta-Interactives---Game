@@ -125,6 +125,7 @@ define(['app'], function() {
 
             // If the ball has hit the wall
             if (this.hasBallHitWall()) {
+                this.tempBallPosition.x = (this.tempBallPosition.x < this.ballRadius) ? this.ballRadius : this.app.WIDTH - this.ballRadius;
                 this.ballSpeed.x *= -1;
             }
 
@@ -350,7 +351,11 @@ define(['app'], function() {
         },
 
         isBallOutOfBounds: function() {
-            return (this.tempBallPosition.y + this.ballRadius > this.app.HEIGHT);
+            /**
+             * Subtract the ball radius from the position so the ball is
+             * completely out of site before we declare it out of bounds.
+             */
+            return (this.tempBallPosition.y - this.ballRadius > this.app.HEIGHT);
         },
 
         circle: function(x,y,r) {
