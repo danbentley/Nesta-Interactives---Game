@@ -20,8 +20,8 @@ define(['app'], function() {
         paddleColour: "#656565",
         ballColour: "#725d3c",
         backColour: "#f4f0ed",
-        paddleh: 13,
-        paddlew: 110,
+        paddleHeight: 13,
+        paddleWidth: 110,
         paddlex: 0,
         destroyedRowsCount: 0,
         PADDLE_POSITION_OFFSET: {
@@ -79,8 +79,8 @@ define(['app'], function() {
             }, this));
 
             $(window).on('mouse.moved', $.proxy(function(e, x, y) {
-                this.paddlex = Math.max(x - this.app.canvasMinX - (this.paddlew / 2), 0);
-                this.paddlex = Math.min(this.app.WIDTH - this.paddlew, this.paddlex);
+                this.paddlex = Math.max(x - this.app.canvasMinX - (this.paddleWidth / 2), 0);
+                this.paddlex = Math.min(this.app.WIDTH - this.paddleWidth, this.paddlex);
             }, this));
         },
 
@@ -96,7 +96,7 @@ define(['app'], function() {
 
             this.paddlePosition = {
                 x: this.paddlex + this.PADDLE_POSITION_OFFSET.x,
-                y: this.app.HEIGHT - this.paddleh + this.PADDLE_POSITION_OFFSET.y
+                y: this.app.HEIGHT - this.paddleHeight + this.PADDLE_POSITION_OFFSET.y
             };
 
             this.tempBallPosition = {
@@ -123,7 +123,7 @@ define(['app'], function() {
                 // Ball has hit paddle
                 if (this.hasBallHitPaddle()) {
                     //move the ball differently based on where it hit the paddle
-                    this.ballSpeed.x = 8 * ((this.ballPosition.x - (this.paddlex + this.paddlew / 2)) / this.paddlew);
+                    this.ballSpeed.x = 8 * ((this.ballPosition.x - (this.paddlex + this.paddleWidth / 2)) / this.paddleWidth);
                     this.ballSpeed.y *= -1;
                 } 
             } else if (this.hasBallHitTop()) {
@@ -145,7 +145,7 @@ define(['app'], function() {
         },
 
         initPaddle: function() {
-            this.paddlex = (this.app.WIDTH - this.paddlew) / 2;
+            this.paddlex = (this.app.WIDTH - this.paddleWidth) / 2;
         },
 
         initBricks: function() {
@@ -257,7 +257,7 @@ define(['app'], function() {
                 this.paddlex -= 5;
             }
             this.ctx.fillStyle = this.paddleColour;
-            this.rect(this.paddlePosition.x, this.paddlePosition.y, this.paddlew, this.paddleh);
+            this.rect(this.paddlePosition.x, this.paddlePosition.y, this.paddleWidth, this.paddleHeight);
         },
 
         canPaddleMoveLeft: function() {
@@ -265,7 +265,7 @@ define(['app'], function() {
         },
 
         canPaddleMoveRight: function() {
-            return (this.paddlePosition.x + this.paddlew < this.app.WIDTH);
+            return (this.paddlePosition.x + this.paddleWidth < this.app.WIDTH);
         },
 
         hasBallHitWall: function() {
@@ -315,13 +315,13 @@ define(['app'], function() {
          * or whether it's too late/early
          */
         isBallNearPaddle: function() {
-            return (this.tempBallPosition.y + this.ballRadius >= this.app.HEIGHT - this.paddleh + this.PADDLE_POSITION_OFFSET.y);
+            return (this.tempBallPosition.y + this.ballRadius >= this.app.HEIGHT - this.paddleHeight + this.PADDLE_POSITION_OFFSET.y);
         },
 
         hasBallHitPaddle: function() {
             return (this.isBallMovingDown() 
                     && this.ballPosition.x >= this.paddlePosition.x 
-                    && this.ballPosition.x <= this.paddlePosition.x + this.paddlew);
+                    && this.ballPosition.x <= this.paddlePosition.x + this.paddleWidth);
         },
 
         isBallMovingDown: function() {
