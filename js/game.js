@@ -320,6 +320,10 @@ define(['app'], function() {
             return (bottomOfBall >= topOfPaddle && !this.isBallInGutter());
         },
 
+        /**
+         * This gutter is the area below the paddle when the ball is still
+         * technically in play but cannot be hit.
+         */
         isBallInGutter: function() {
             var gutterHeight = this.app.HEIGHT + this.PADDLE_POSITION_OFFSET.y;
             var bottomOfBall = this.tempBallPosition.y + this.ballRadius;
