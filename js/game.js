@@ -176,13 +176,13 @@ define(['app'], function() {
         },
 
         drawBricks: function() {
-            var rowCount = this.rowCount;
+            this.updateBrickDimensions();
             for(var i=0; i < this.rowCount; i++) {
                 var row = this.bricks[i];
 
                 // Keeping track of destroyed rows ensures that row colours
                 // don't get changed as we remove rows from the bricks array
-                var index = rowCount - i + this.destroyedRowsCount;
+                var index = this.rowCount - i + this.destroyedRowsCount;
                 var colourIndex = (index >= this.rowColours.length) ? index % this.rowColours.length : index;
                 this.ctx.fillStyle = this.rowColours[colourIndex];
 
