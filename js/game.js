@@ -204,10 +204,7 @@ define(['app'], function() {
         updateBricks: function() {
             this.updateBrickDimensions();
             //reverse the ball and mark the brick as broken
-            if (this.isBallNearBricks()
-                    && this.nearestRow >= 0 
-                    && this.nearestCol >= 0 
-                    && this.bricks[this.nearestRow][this.nearestCol] == 1) {
+            if (this.hasBallHitNearestBrick()) {
                 this.ballSpeed.y *= -1;
                 this.bricks[this.nearestRow][this.nearestCol] = 0;
                 if (!this.isLastRowActive()) {
@@ -287,8 +284,30 @@ define(['app'], function() {
             return (this.ballPosition.y + this.ballSpeed.y - this.ballRadius < 0);
         },
 
+        /**
+         * Is the ball close enough to hit any bricks
+         *
+         */
         isBallNearBricks: function() {
             return (this.ballPosition.y < this.bricksHeight);
+        },
+
+        isBallWithinCollisionArea: function() {
+            return (this.nearestRow >= 0 && this.nearestCol >= 0);
+        },
+
+        isBrickActive: function(row, col) {
+            return (this.bricks[row][col] === 1);
+        },
+
+        isBrickNearestBallActive: function() {
+            return this.isBrickActive(this.nearestRow, this.nearestCol);
+        },
+
+        hasBallHitNearestBrick: function() {
+            return (this.isBallNearBricks()
+                && this.isBallWithinCollisionArea()
+                && this.isBrickNearestBallActive());
         },
 
         /**
