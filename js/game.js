@@ -23,6 +23,7 @@ define(['app'], function() {
         paddleh: 13,
         paddlew: 110,
         paddlex: 0,
+        destroyedRowsCount: 0,
         PADDLE_POSITION_OFFSET: {
             x: 0,
             y: -30
@@ -100,8 +101,8 @@ define(['app'], function() {
 
             this.drawBall();
             this.drawPaddle();
-            this.drawBricks();
             this.updateBricks();
+            this.drawBricks();
 
             if (this.isBallOutOfBounds()) {
                 $(window).trigger('player.died');
@@ -174,7 +175,9 @@ define(['app'], function() {
             for(var i=0; i < rowCount; i++) {
                 var row = this.bricks[i];
 
-                var index = rowCount - i;
+                // Keeping track of destroyed rows ensures that row colours
+                // don't get changed as we remove rows from the bricks array
+                var index = rowCount - i + this.destroyedRowsCount;
                 var colourIndex = (index >= this.rowColours.length) ? index % this.rowColours.length : index;
                 this.ctx.fillStyle = this.rowColours[colourIndex];
 
@@ -229,6 +232,7 @@ define(['app'], function() {
 
         removeLastRow: function() {
             this.bricks.splice(this.bricks.length - 1, 1);
+            this.destroyedRowsCount++;
         },
 
         drawBall: function() {
