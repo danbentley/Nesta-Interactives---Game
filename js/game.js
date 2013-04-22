@@ -45,6 +45,11 @@ define(['app'], function() {
             x: 0,
             y: 0,
         },
+        rowHeight: 0,
+        colWidth: 0,
+        nearestRow: 0,
+        nearestCol: 0,
+        rowCount: 0,
 
         init: function(app) {
             this.app = app;
@@ -197,22 +202,27 @@ define(['app'], function() {
         },
 
         updateBricks: function() {
-            //want to learn about real collision detection? go read
-            // http://www.harveycartel.org/metanet/tutorials/tutorialA.html
-            var rowheight = this.BRICKHEIGHT + this.PADDING;
-            var colwidth = this.BRICKWIDTH + this.PADDING;
-            var row = Math.floor(this.ballPosition.y / rowheight);
-            var col = Math.floor(this.ballPosition.x / colwidth);
-            var rowCount = this.bricks.length
+            this.updateBrickDimensions();
             //reverse the ball and mark the brick as broken
-            if (this.ballPosition.y < rowCount * rowheight && row >= 0 && col >= 0 && this.bricks[row][col] == 1) {
+            if (this.ballPosition.y < this.rowCount * this.rowHeight 
+                    && this.nearestRow >= 0 
+                    && this.nearestCol >= 0 
+                    && this.bricks[this.nearestRow][this.nearestCol] == 1) {
                 this.ballSpeed.y *= -1;
-                this.bricks[row][col] = 0;
+                this.bricks[this.nearestRow][this.nearestCol] = 0;
                 if (!this.isLastRowActive()) {
                     this.removeLastRow();
                 }
                 $(window).trigger('brick.destroyed');
             }
+        },
+
+        updateBrickDimensions: function() {
+            this.rowHeight = this.BRICKHEIGHT + this.PADDING;
+            this.colWidth = this.BRICKWIDTH + this.PADDING;
+            this.nearestRow = Math.floor(this.ballPosition.y / this.rowHeight);
+            this.nearestCol = Math.floor(this.ballPosition.x / this.colWidth);
+            this.rowCount = this.bricks.length;
         },
 
         isLastRowActive: function() {
@@ -261,8 +271,15 @@ define(['app'], function() {
         },
 
         hasBallHitWall: function() {
-            return (this.tempBallPosition.x + this.ballRadius >= this.app.WIDTH 
-                    || this.tempBallPosition.x - this.ballRadius <= 0);
+            return (this.hasBallHitLeftWall() || this.hasBallHitRightWall());
+        },
+
+        hasBallHitLeftWall: function() {
+            return (this.tempBallPosition.x - this.ballRadius <= 0);
+        },
+
+        hasBallHitRightWall: function() {
+            return (this.tempBallPosition.x + this.ballRadius >= this.app.WIDTH);
         },
 
         hasBallHitTop: function() {
