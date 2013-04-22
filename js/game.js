@@ -169,15 +169,15 @@ define(['app'], function() {
 
         startAddRowInterval: function() {
             this.addRowIntervalId = setInterval($.proxy(function() {
-                if (this.bricks.length < this.MAX_ROW_COUNT) {
+                if (this.rowCount < this.MAX_ROW_COUNT) {
                     this.addRow();
                 }
             }, this), this.ADD_ROW_INTERVAL_DELAY);
         },
 
         drawBricks: function() {
-            var rowCount = this.bricks.length;
-            for(var i=0; i < rowCount; i++) {
+            var rowCount = this.rowCount;
+            for(var i=0; i < this.rowCount; i++) {
                 var row = this.bricks[i];
 
                 // Keeping track of destroyed rows ensures that row colours
@@ -228,7 +228,7 @@ define(['app'], function() {
         isLastRowActive: function() {
             var isRowActive = false;
 
-            var lastRow = this.bricks[this.bricks.length - 1];
+            var lastRow = this.bricks[this.rowCount - 1];
             for (var i=0; i < this.COL_COUNT; i++) {
                 var col = lastRow[i];
                 if (col == 1) {
@@ -241,7 +241,7 @@ define(['app'], function() {
         },
 
         removeLastRow: function() {
-            this.bricks.splice(this.bricks.length - 1, 1);
+            this.bricks.splice(this.rowCount - 1, 1);
             this.destroyedRowsCount++;
         },
 
