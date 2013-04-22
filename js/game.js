@@ -315,13 +315,21 @@ define(['app'], function() {
          * or whether it's too late/early
          */
         isBallNearPaddle: function() {
-            return (this.tempBallPosition.y + this.ballRadius >= this.app.HEIGHT - this.paddleHeight + this.PADDLE_POSITION_OFFSET.y);
+            var bottomOfBall = this.tempBallPosition.y + this.ballRadius;
+            var topOfPaddle = this.app.HEIGHT - this.paddleHeight + this.PADDLE_POSITION_OFFSET.y;
+            return (bottomOfBall >= topOfPaddle && !this.isBallInGutter());
+        },
+
+        isBallInGutter: function() {
+            var gutterHeight = this.app.HEIGHT + this.PADDLE_POSITION_OFFSET.y;
+            var bottomOfBall = this.tempBallPosition.y + this.ballRadius;
+            return (bottomOfBall >= gutterHeight);
         },
 
         hasBallHitPaddle: function() {
             return (this.isBallMovingDown() 
-                    && this.ballPosition.x >= this.paddlePosition.x 
-                    && this.ballPosition.x <= this.paddlePosition.x + this.paddleWidth);
+                && this.ballPosition.x >= this.paddlePosition.x 
+                && this.ballPosition.x <= this.paddlePosition.x + this.paddleWidth);
         },
 
         isBallMovingDown: function() {
@@ -329,7 +337,7 @@ define(['app'], function() {
         },
 
         isBallOutOfBounds: function() {
-            return (this.tempBallPosition.y + this.ballRadius >= this.app.HEIGHT);
+            return (this.tempBallPosition.y + this.ballRadius > this.app.HEIGHT);
         },
 
         circle: function(x,y,r) {
