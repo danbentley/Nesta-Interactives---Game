@@ -24,6 +24,15 @@ define(['app'], function() {
         paddleWidth: 110,
         paddlex: 0,
         destroyedRowsCount: 0,
+        
+        /**
+         * Add a little more width to the paddle to make it easier to hit the
+         * ball.
+         *
+         * Padding also give the illusion the side of the ball is hitting the
+         * side of the paddle.
+         */
+        PADDLE_COLLISION_PADDING: 10,
         PADDLE_POSITION_OFFSET: {
             x: 0,
             y: -30
@@ -332,8 +341,8 @@ define(['app'], function() {
 
         hasBallHitPaddle: function() {
             return (this.isBallMovingDown() 
-                && this.ballPosition.x >= this.paddlePosition.x 
-                && this.ballPosition.x <= this.paddlePosition.x + this.paddleWidth);
+                && this.ballPosition.x >= this.paddlePosition.x - this.PADDLE_COLLISION_PADDING
+                && this.ballPosition.x <= this.paddlePosition.x + this.paddleWidth + this.PADDLE_COLLISION_PADDING);
         },
 
         isBallMovingDown: function() {
