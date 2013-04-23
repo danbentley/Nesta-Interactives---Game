@@ -31,6 +31,8 @@ define(['lib/array.shuffle'], function() {
             this.canvasMinX = $("#canvas").offset().left;
             this.canvasMaxX = this.canvasMinX + this.WIDTH;
             this.drawLives();
+            this.$currentLives.parent().show();
+            this.$currentScore.parent().show();
             this.addListeners();
         },
 

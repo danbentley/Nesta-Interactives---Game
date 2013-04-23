@@ -104,6 +104,7 @@ h3 {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+	display: none;
 }
 .current-score span {
 	font: normal 0.7em/1 'MuseoSlab500', Helvetica, Sans-serif;
@@ -140,6 +141,7 @@ h3 {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+	display: none;
 }
 
 .lives span {
@@ -179,7 +181,12 @@ h3 {
 
 
 /* END SCREEN */
+.complete .end-screen {
+	display:block;
+}
+
 .end-screen {
+	display:none;
 	position: absolute;
 	top: 0;
 	left: 0;
