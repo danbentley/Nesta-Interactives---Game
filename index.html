@@ -1,3 +1,5 @@
+<!doctype html>
+
 <html>
 	<head>
 		<title>Brickout</title>
@@ -9,10 +11,17 @@
 		<div class="interactive-wrapper">		
 			
 			<div class="game interactive">
-				<canvas id="canvas" width="700" height="350"></canvas>
+				<canvas id="canvas" width="700" height="350">
+	                <div class="message-overlay"></div>
+					<div class="message">
+						<h3>Oh fiddlesticks!</h3>
+						<p>Your browser <strong>does not</strong> support awesome stuff.</p>
+						<p>Try these browsers instead...</p>
+					</div>
+				</canvas>
 				
 				<div class="current-score"><span id="current-score">Score: <strong>0</strong></span></div>
-				<div class="lives">lives:<span id="lives">lives:</span></div>
+				<div class="lives">Lives:<span id="lives"></span></div>
 				
 				<div class="end-screen">
 					<h3>Well done! you scored&hellip;</h3>
