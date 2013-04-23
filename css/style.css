@@ -119,9 +119,6 @@ h3 {
 	color: #f2665e;
 }
 
-.complete .current-score {
-	display:none;
-}
 
 
 /* LIVES INDICATOR */
@@ -172,10 +169,6 @@ h3 {
 
 .lives span strong {
 	color: #f2665e;
-}
-
-.complete .lives {
-	display: none;
 }
 
 

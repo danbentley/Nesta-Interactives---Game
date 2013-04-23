@@ -59,6 +59,8 @@ define(['lib/array.shuffle'], function() {
             $(window).on('game.over', $.proxy(function() {
                 this.$game.addClass('complete');
                 this.updateFinalScore();
+                this.$currentLives.parent().hide();
+                this.$currentScore.parent().hide();
                 clearInterval(this.drawIntervalId);
             }, this));
 
