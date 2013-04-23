@@ -2,10 +2,6 @@ define(['lib/array.shuffle'], function() {
 
     return {
 
-        x: 25,
-        y: 250,
-        dx: 1.5,
-        dy: -4,
         ctx: null,
         WIDTH: 0,
         HEIGHT: 0,
