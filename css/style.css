@@ -254,16 +254,16 @@ h3 {
 .final-score .no-8 { background-position: -850px -50px; width:65px; }
 .final-score .no-9 { background-position: -950px -50px; width:63px; }
 
-.final-score .green { background-image: url('../images/score-numbers-green.png'); }
-.final-score .blue { background-image: url('../images/score-numbers-blue.png'); }
-.final-score .orange { background-image: url('../images/score-numbers-orange.png'); }
-.final-score .red { background-image: url('../images/score-numbers-red.png'); }
+.final-score .green { background-image: url('../img/score-numbers-green.png'); }
+.final-score .blue { background-image: url('../img/score-numbers-blue.png'); }
+.final-score .orange { background-image: url('../img/score-numbers-orange.png'); }
+.final-score .red { background-image: url('../img/score-numbers-red.png'); }
 
 
 
 /* MESSAGE */
 .message-overlay {
-	background:#f4f0ed url('../images/game-disabled-bg.png') no-repeat 0 0;
+	background:#f4f0ed url('../img/game-disabled-bg.png') no-repeat 0 0;
 	width:100%;
 	height:100%;
 	z-index: 10;
