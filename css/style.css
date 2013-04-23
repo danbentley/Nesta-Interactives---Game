@@ -141,6 +141,7 @@ h3 {
 	-ms-user-select: none;
 	user-select: none;
 }
+
 .lives span {
 	display: inline-block;
 }
@@ -176,13 +177,9 @@ h3 {
 }
 
 
-/* END SCREEN */
-.complete .end-screen {
-	display:block;
-}
 
+/* END SCREEN */
 .end-screen {
-	display:none;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -259,6 +256,15 @@ h3 {
 .final-score .orange { background-image: url('../images/score-numbers-orange.png'); }
 .final-score .red { background-image: url('../images/score-numbers-red.png'); }
 
+
+/* TEXT SPRITE PRELOADER */
+.preload-text-sprites { width:4px; height:1px; margin:0; padding:0; overflow: hidden;}
+.preload-text-sprites div { width:1px; height:1px; float:left; margin:0; padding:0; }
+
+.preload-text-sprites .blue { background: #fff url('../img/score-numbers-blue.png') no-repeat -2000px; }
+.preload-text-sprites .green { background: #fff url('../img/score-numbers-green.png') no-repeat -2000px; }
+.preload-text-sprites .orange { background: #fff url('../img/score-numbers-orange.png') no-repeat -2000px; }
+.preload-text-sprites .red { background: #fff url('../img/score-numbers-red.png') no-repeat -2000px; }
 
 
 /* MESSAGE */
