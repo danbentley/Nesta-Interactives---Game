@@ -61,8 +61,13 @@ define(['app'], function() {
         rowCount: 0,
 
         init: function(app) {
+
+            // App checks whether the browser supports <canvas> returning
+            // false if it's not supported
             this.app = app;
+            if (!this.app.isCanvasSupported()) return;
             this.app.init();
+
             this.ctx = this.app.ctx;
             this.BRICKWIDTH = (this.app.WIDTH / this.COL_COUNT) - this.PADDING;
             this.initPaddle();

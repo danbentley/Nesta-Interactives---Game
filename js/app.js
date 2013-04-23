@@ -83,6 +83,11 @@ define(['lib/array.shuffle'], function() {
             }, this));
         },
 
+        isCanvasSupported: function(){
+          var elem = document.createElement('canvas');
+          return !!(elem.getContext && elem.getContext('2d'));
+        },
+
         reset: function() {
             this.$game.removeClass('complete');
             this.score = 0;
