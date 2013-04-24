@@ -97,6 +97,8 @@ define(['lib/array.shuffle'], function() {
             this.score = 0;
             this.currentLives = 3;
             this.drawLives();
+            this.$currentLives.parent().show();
+            this.$currentScore.parent().show();
             $(window).trigger('game.reset');
         },
 
