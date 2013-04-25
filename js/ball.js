@@ -25,28 +25,28 @@ define([], function() {
             this.ctx = this.app.ctx;
         },
 
-        hasBallHitWall: function() {
-            return (this.hasBallHitLeftWall() || this.hasBallHitRightWall());
+        hasHitWall: function() {
+            return (this.hasHitLeftWall() || this.hasHitRightWall());
         },
 
-        hasBallHitLeftWall: function() {
+        hasHitLeftWall: function() {
             return (this.tempPosition.x - this.radius <= 0);
         },
 
-        hasBallHitRightWall: function() {
+        hasHitRightWall: function() {
             return (this.tempPosition.x + this.radius >= this.app.WIDTH);
         },
 
-        hasBallHitTop: function() {
+        hasHitTop: function() {
             return (this.position.y + this.velocity.y - this.radius < 0);
         },
 
-        isBallMovingDown: function() {
+        isMovingDown: function() {
             return (this.velocity.y > 0);
         },
 
         correctBallPlacementAfterHittingWall: function() {
-            this.tempPosition.x = (this.hasBallHitLeftWall()) ? this.radius : this.app.WIDTH - this.radius;
+            this.tempPosition.x = (this.hasHitLeftWall()) ? this.radius : this.app.WIDTH - this.radius;
         },
 
         drawBall: function() {
@@ -63,7 +63,7 @@ define([], function() {
             this.drawBall();
 
             // If the ball has hit the wall
-            if (this.hasBallHitWall()) {
+            if (this.hasHitWall()) {
                 this.correctBallPlacementAfterHittingWall();
                 this.velocity.x *= -1;
             }
@@ -76,7 +76,6 @@ define([], function() {
             this.ctx.arc(x, y, r, 0, Math.PI * 2, true);
             this.ctx.closePath();
             this.ctx.fill();
-        },
-
+        }
     };
 });

@@ -93,7 +93,7 @@ define(['paddle', 'ball'], function(paddle, ball) {
                     this.ball.velocity.x = 8 * ((this.ball.position.x - (this.paddle.position.x + this.paddle.width / 2)) / this.paddle.width);
                     this.ball.velocity.y *= -1;
                 } 
-            } else if (this.ball.hasBallHitTop()) {
+            } else if (this.ball.hasHitTop()) {
                 this.ball.velocity.y *= -1;
             }
 
@@ -214,6 +214,16 @@ define(['paddle', 'ball'], function(paddle, ball) {
         },
 
         /**
+         * Despite these methods relating directly to the ball object they
+         * belong in game.
+         *
+         * These methods depend on knowledge of the play area, bricks and
+         * paddle. None of which the ball should know about.
+         *
+         * There's a grey area here that's worth investigating
+         */
+
+        /**
          * Is the ball close enough to hit any bricks
          *
          */
@@ -260,7 +270,7 @@ define(['paddle', 'ball'], function(paddle, ball) {
         },
 
         hasBallHitPaddle: function() {
-            return (this.ball.isBallMovingDown() 
+            return (this.ball.isMovingDown() 
                 && this.ball.position.x >= this.paddle.position.x - this.PADDLE_COLLISION_PADDING
                 && this.ball.position.x <= this.paddle.position.x + this.paddle.width + this.PADDLE_COLLISION_PADDING);
         },
