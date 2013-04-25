@@ -5,8 +5,8 @@ define([], function() {
         app: null,
         ctx: null,
         radius: 9,
-        ballColour: "#725d3c",
-        ballPosition: {
+        colour: "#725d3c",
+        position: {
             x: 25,
             y: 250,
         },
@@ -15,7 +15,7 @@ define([], function() {
             y: -2,
         },
         // Used to calculate where the ball is going/what it's hitting
-        tempBallPosition: {
+        tempPosition: {
             x: 0,
             y: 0,
         },
@@ -30,15 +30,15 @@ define([], function() {
         },
 
         hasBallHitLeftWall: function() {
-            return (this.tempBallPosition.x - this.radius <= 0);
+            return (this.tempPosition.x - this.radius <= 0);
         },
 
         hasBallHitRightWall: function() {
-            return (this.tempBallPosition.x + this.radius >= this.app.WIDTH);
+            return (this.tempPosition.x + this.radius >= this.app.WIDTH);
         },
 
         hasBallHitTop: function() {
-            return (this.ballPosition.y + this.velocity.y - this.radius < 0);
+            return (this.position.y + this.velocity.y - this.radius < 0);
         },
 
         isBallMovingDown: function() {
@@ -46,18 +46,18 @@ define([], function() {
         },
 
         correctBallPlacementAfterHittingWall: function() {
-            this.tempBallPosition.x = (this.hasBallHitLeftWall()) ? this.radius : this.app.WIDTH - this.radius;
+            this.tempPosition.x = (this.hasBallHitLeftWall()) ? this.radius : this.app.WIDTH - this.radius;
         },
 
         drawBall: function() {
-            this.ctx.fillStyle = this.ballColour;
-            this.circle(this.ballPosition.x, this.ballPosition.y, this.radius);
+            this.ctx.fillStyle = this.colour;
+            this.circle(this.position.x, this.position.y, this.radius);
         },
 
         draw: function() {
-            this.tempBallPosition = {
-                x: this.ballPosition.x + this.velocity.x,
-                y: this.ballPosition.y + this.velocity.y
+            this.tempPosition = {
+                x: this.position.x + this.velocity.x,
+                y: this.position.y + this.velocity.y
             };
 
             this.drawBall();
@@ -68,7 +68,7 @@ define([], function() {
                 this.velocity.x *= -1;
             }
 
-            this.ballPosition = this.tempBallPosition;
+            this.position = this.tempPosition;
         },
 
         circle: function(x,y,r) {
