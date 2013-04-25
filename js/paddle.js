@@ -8,7 +8,6 @@ define(['paddle', 'ball'], function(paddle, ball) {
         colour: "#656565",
         height: 13,
         width: 110,
-
         position: {
             x: 0,
             y: 30
