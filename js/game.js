@@ -81,7 +81,7 @@ define(['paddle', 'ball'], function(paddle, ball) {
                 // Ball has hit paddle
                 if (this.hasBallHitPaddle()) {
                     //move the ball differently based on where it hit the paddle
-                    this.ball.ballSpeed.x = 8 * ((this.ball.ballPosition.x - (this.paddle.paddlex + this.paddle.paddleWidth / 2)) / this.paddle.paddleWidth);
+                    this.ball.ballSpeed.x = 8 * ((this.ball.ballPosition.x - (this.paddle.paddlex + this.paddle.width / 2)) / this.paddle.width);
                     this.ball.ballSpeed.y *= -1;
                 } 
             } else if (this.ball.hasBallHitTop()) {
@@ -236,7 +236,7 @@ define(['paddle', 'ball'], function(paddle, ball) {
          */
         isBallNearPaddle: function() {
             var bottomOfBall = this.ball.tempBallPosition.y + this.ball.ballRadius;
-            var topOfPaddle = this.app.HEIGHT - this.paddle.paddleHeight + this.paddle.PADDLE_POSITION_OFFSET.y;
+            var topOfPaddle = this.app.HEIGHT - this.paddle.height + this.paddle.PADDLE_POSITION_OFFSET.y;
             return (bottomOfBall >= topOfPaddle && !this.isBallInGutter());
         },
 
@@ -253,7 +253,7 @@ define(['paddle', 'ball'], function(paddle, ball) {
         hasBallHitPaddle: function() {
             return (this.ball.isBallMovingDown() 
                 && this.ball.ballPosition.x >= this.paddle.position.x - this.paddle.PADDLE_COLLISION_PADDING
-                && this.ball.ballPosition.x <= this.paddle.position.x + this.paddle.paddleWidth + this.paddle.PADDLE_COLLISION_PADDING);
+                && this.ball.ballPosition.x <= this.paddle.position.x + this.paddle.width + this.paddle.PADDLE_COLLISION_PADDING);
         },
 
         isBallMovingDown: function() {

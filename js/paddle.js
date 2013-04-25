@@ -5,9 +5,9 @@ define(['paddle', 'ball'], function(paddle, ball) {
         app: null,
         ball: null,
         ctx: null,
-        paddleColour: "#656565",
-        paddleHeight: 13,
-        paddleWidth: 110,
+        colour: "#656565",
+        height: 13,
+        width: 110,
         paddlex: 0,
 
         /**
@@ -32,21 +32,21 @@ define(['paddle', 'ball'], function(paddle, ball) {
             this.ball = this.app.ball;
             this.ctx = this.app.ctx;
 
-            this.paddlex = (this.app.WIDTH - this.paddleWidth) / 2;
+            this.paddlex = (this.app.WIDTH - this.width) / 2;
             this.addListeners();
         },
 
         addListeners: function() {
             $(window).on('mouse.moved', $.proxy(function(e, x, y) {
-                this.paddlex = Math.max(x - this.app.canvasMinX - (this.paddleWidth / 2), 0);
-                this.paddlex = Math.min(this.app.WIDTH - this.paddleWidth, this.paddlex);
+                this.paddlex = Math.max(x - this.app.canvasMinX - (this.width / 2), 0);
+                this.paddlex = Math.min(this.app.WIDTH - this.width, this.paddlex);
             }, this));
         },
 
         draw: function() {
             this.position = {
                 x: this.paddlex + this.PADDLE_POSITION_OFFSET.x,
-                y: this.app.HEIGHT - this.paddleHeight + this.PADDLE_POSITION_OFFSET.y
+                y: this.app.HEIGHT - this.height + this.PADDLE_POSITION_OFFSET.y
             };
 
             // Move paddle
@@ -55,8 +55,8 @@ define(['paddle', 'ball'], function(paddle, ball) {
             } else if (this.app.leftDown && this.canPaddleMoveLeft()) {
                 this.paddlex -= 5;
             }
-            this.ctx.fillStyle = this.paddleColour;
-            this.rect(this.position.x, this.position.y, this.paddleWidth, this.paddleHeight);
+            this.ctx.fillStyle = this.colour;
+            this.rect(this.position.x, this.position.y, this.width, this.height);
         },
 
         canPaddleMoveLeft: function() {
@@ -64,7 +64,7 @@ define(['paddle', 'ball'], function(paddle, ball) {
         },
 
         canPaddleMoveRight: function() {
-            return (this.position.x + this.paddleWidth < this.app.WIDTH);
+            return (this.position.x + this.width < this.app.WIDTH);
         },
 
         rect: function(x,y,w,h) {
