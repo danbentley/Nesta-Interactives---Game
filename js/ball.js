@@ -14,11 +14,6 @@ define([], function() {
             x: 1.6,
             y: -2,
         },
-        // Used to calculate where the ball is going/what it's hitting
-        tempPosition: {
-            x: 0,
-            y: 0,
-        },
 
         init: function(app) {
             this.app = app;
@@ -30,11 +25,11 @@ define([], function() {
         },
 
         hasHitLeftWall: function() {
-            return (this.tempPosition.x - this.radius <= 0);
+            return (this.position.x - this.radius <= 0);
         },
 
         hasHitRightWall: function() {
-            return (this.tempPosition.x + this.radius >= this.app.WIDTH);
+            return (this.position.x + this.radius >= this.app.WIDTH);
         },
 
         hasHitTop: function() {
@@ -55,11 +50,11 @@ define([], function() {
         },
 
         correctBallPlacementAfterHittingWall: function() {
-            this.tempPosition.x = (this.hasHitLeftWall()) ? this.radius : this.app.WIDTH - this.radius;
+            this.position.x = (this.hasHitLeftWall()) ? this.radius : this.app.WIDTH - this.radius;
         },
 
         updatePosition: function() {
-            this.tempPosition = {
+            this.position = {
                 x: this.position.x + this.velocity.x,
                 y: this.position.y + this.velocity.y
             };
@@ -69,8 +64,6 @@ define([], function() {
                 this.correctBallPlacementAfterHittingWall();
                 this.velocity.x *= -1;
             }
-
-            this.position = this.tempPosition;
         },
 
         draw: function() {

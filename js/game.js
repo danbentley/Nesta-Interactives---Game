@@ -249,7 +249,7 @@ define(['paddle', 'ball'], function(paddle, ball) {
          * or whether it's too late/early
          */
         isBallNearPaddle: function() {
-            var bottomOfBall = this.ball.tempPosition.y + this.ball.radius;
+            var bottomOfBall = this.ball.position.y + this.ball.radius;
             var topOfPaddle = this.paddle.position.y;
             return (bottomOfBall >= topOfPaddle && !this.isBallInGutter());
         },
@@ -260,7 +260,7 @@ define(['paddle', 'ball'], function(paddle, ball) {
          */
         isBallInGutter: function() {
             var bottomOfPaddle = this.paddle.height + this.paddle.position.y;
-            var bottomOfBall = this.ball.tempPosition.y + this.ball.radius;
+            var bottomOfBall = this.ball.position.y + this.ball.radius;
             return (bottomOfBall >= bottomOfPaddle);
         },
 
@@ -275,7 +275,7 @@ define(['paddle', 'ball'], function(paddle, ball) {
              * Subtract the ball radius from the position so the ball is
              * completely out of site before we declare it out of bounds.
              */
-            return (this.ball.tempPosition.y - this.ball.radius > this.app.HEIGHT);
+            return (this.ball.position.y - this.ball.radius > this.app.HEIGHT);
         },
 
         /**
