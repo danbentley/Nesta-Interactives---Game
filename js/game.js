@@ -17,45 +17,9 @@ define(['paddle', 'ball'], function(paddle, ball) {
         DRAW_INTERVAL_DELAY: 1,
         addRowIntervalId: null,
         ADD_ROW_INTERVAL_DELAY: 5000,
-        ballRadius: 9,
         rowColours: ["#57cbf5", "#6ac071", "#fcb040", "#f2665e"],
-        paddleColour: "#656565",
-        ballColour: "#725d3c",
         backColour: "#f4f0ed",
-        paddleHeight: 13,
-        paddleWidth: 110,
-        paddlex: 0,
         destroyedRowsCount: 0,
-        
-        /**
-         * Add a little more width to the paddle to make it easier to hit the
-         * ball.
-         *
-         * Padding also give the illusion the side of the ball is hitting the
-         * side of the paddle.
-         */
-        PADDLE_COLLISION_PADDING: 10,
-        PADDLE_POSITION_OFFSET: {
-            x: 0,
-            y: -30
-        },
-        paddlePosition: {
-            x: 0,
-            y: 0
-        },
-        ballPosition: {
-            x: 25,
-            y: 250,
-        },
-        ballSpeed: {
-            x: 1.6,
-            y: -2,
-        },
-        // Used to calculate where the ball is going/what it's hitting
-        tempBallPosition: {
-            x: 0,
-            y: 0,
-        },
         rowHeight: 0,
         colWidth: 0,
         nearestRow: 0,
@@ -79,7 +43,6 @@ define(['paddle', 'ball'], function(paddle, ball) {
             this.paddle.init(this.app);
 
             this.BRICKWIDTH = (this.app.WIDTH / this.COL_COUNT) - this.PADDING;
-            this.initPaddle();
             this.initBricks();
             this.startDrawInterval();
             this.startAddRowInterval();
@@ -100,13 +63,6 @@ define(['paddle', 'ball'], function(paddle, ball) {
             $(window).on('game.reset', $.proxy(function() {
                 this.reset();
             }, this));
-
-            /*
-            $(window).on('mouse.moved', $.proxy(function(e, x, y) {
-                this.paddlex = Math.max(x - this.app.canvasMinX - (this.paddleWidth / 2), 0);
-                this.paddlex = Math.min(this.app.WIDTH - this.paddleWidth, this.paddlex);
-            }, this));
-            */
         },
 
         startDrawInterval: function() {
@@ -119,12 +75,8 @@ define(['paddle', 'ball'], function(paddle, ball) {
             this.ctx.fillStyle = this.backColour;
             this.clear();
 
-            this.paddlePosition = {
-                x: this.paddlex + this.PADDLE_POSITION_OFFSET.x,
-                y: this.app.HEIGHT - this.paddleHeight + this.PADDLE_POSITION_OFFSET.y
-            };
-
             this.paddle.draw();
+
             if (this.isBallNearPaddle()) {
                 // Ball has hit paddle
                 if (this.hasBallHitPaddle()) {
@@ -132,7 +84,7 @@ define(['paddle', 'ball'], function(paddle, ball) {
                     this.ball.ballSpeed.x = 8 * ((this.ball.ballPosition.x - (this.paddle.paddlex + this.paddle.paddleWidth / 2)) / this.paddle.paddleWidth);
                     this.ball.ballSpeed.y *= -1;
                 } 
-            } else if (this.hasBallHitTop()) {
+            } else if (this.ball.hasBallHitTop()) {
                 this.ball.ballSpeed.y *= -1;
             }
 
@@ -140,56 +92,21 @@ define(['paddle', 'ball'], function(paddle, ball) {
             this.updateBricks();
             this.drawBricks();
 
-            /*
-            this.tempBallPosition = {
-                x: this.ballPosition.x + this.ballSpeed.x,
-                y: this.ballPosition.y + this.ballSpeed.y
-            };
-
-            this.drawBall();
-            this.drawPaddle();
-            this.updateBricks();
-            this.drawBricks();
-
             if (this.isBallOutOfBounds()) {
                 $(window).trigger('player.died');
                 return this.restart();
             }
-
-            // If the ball has hit the wall
-            if (this.hasBallHitWall()) {
-                this.correctBallPlacementAfterHittingWall();
-                this.ballSpeed.x *= -1;
-            }
-
-            if (this.isBallNearPaddle()) {
-                // Ball has hit paddle
-                if (this.hasBallHitPaddle()) {
-                    //move the ball differently based on where it hit the paddle
-                    this.ballSpeed.x = 8 * ((this.ballPosition.x - (this.paddlex + this.paddleWidth / 2)) / this.paddleWidth);
-                    this.ballSpeed.y *= -1;
-                } 
-            } else if (this.hasBallHitTop()) {
-                this.ballSpeed.y *= -1;
-            }
-
-            this.ballPosition = this.tempBallPosition;
-            */
         },
 
         restart: function() {
-            this.ballPosition = {
+            this.ball.ballPosition = {
                 x: 25,
                 y: 250,
             };
-            this.ballSpeed = {
+            this.ball.ballSpeed = {
                 x: 1.6,
                 y: -2,
             };
-        },
-
-        initPaddle: function() {
-            this.paddlex = (this.app.WIDTH - this.paddleWidth) / 2;
         },
 
         initBricks: function() {
@@ -287,47 +204,6 @@ define(['paddle', 'ball'], function(paddle, ball) {
             this.destroyedRowsCount++;
         },
 
-        drawBall: function() {
-            this.ctx.fillStyle = this.ballColour;
-            this.circle(this.ballPosition.x, this.ballPosition.y, this.ballRadius);
-        },
-
-        drawPaddle: function() {
-
-            // Move paddle
-            if (this.app.rightDown && this.canPaddleMoveRight()) {
-                this.paddlex += 5;
-            } else if (this.app.leftDown && this.canPaddleMoveLeft()) {
-                this.paddlex -= 5;
-            }
-            this.ctx.fillStyle = this.paddleColour;
-            this.rect(this.paddlePosition.x, this.paddlePosition.y, this.paddleWidth, this.paddleHeight);
-        },
-
-        canPaddleMoveLeft: function() {
-            return (this.paddlePosition.x > 0);
-        },
-
-        canPaddleMoveRight: function() {
-            return (this.paddlePosition.x + this.paddleWidth < this.app.WIDTH);
-        },
-
-        hasBallHitWall: function() {
-            return (this.hasBallHitLeftWall() || this.hasBallHitRightWall());
-        },
-
-        hasBallHitLeftWall: function() {
-            return (this.tempBallPosition.x - this.ballRadius <= 0);
-        },
-
-        hasBallHitRightWall: function() {
-            return (this.tempBallPosition.x + this.ballRadius >= this.app.WIDTH);
-        },
-
-        hasBallHitTop: function() {
-            return (this.ballPosition.y + this.ballSpeed.y - this.ballRadius < 0);
-        },
-
         /**
          * Is the ball close enough to hit any bricks
          *
@@ -389,11 +265,7 @@ define(['paddle', 'ball'], function(paddle, ball) {
              * Subtract the ball radius from the position so the ball is
              * completely out of site before we declare it out of bounds.
              */
-            return (this.tempBallPosition.y - this.ballRadius > this.app.HEIGHT);
-        },
-
-        correctBallPlacementAfterHittingWall: function() {
-            this.tempBallPosition.x = (this.hasBallHitLeftWall()) ? this.ballRadius : this.app.WIDTH - this.ballRadius;
+            return (this.ball.tempBallPosition.y - this.ball.ballRadius > this.app.HEIGHT);
         },
 
         rect: function(x,y,w,h) {

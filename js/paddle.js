@@ -33,7 +33,7 @@ define(['paddle', 'ball'], function(paddle, ball) {
             this.ball = this.app.ball;
             this.ctx = this.app.ctx;
 
-            //this.paddlex = (this.app.WIDTH - this.paddleWidth) / 2;
+            this.paddlex = (this.app.WIDTH - this.paddleWidth) / 2;
             this.addListeners();
         },
 
