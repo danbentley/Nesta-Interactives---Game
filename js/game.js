@@ -252,8 +252,8 @@ define(['paddle', 'ball'], function(paddle, ball) {
 
         hasBallHitPaddle: function() {
             return (this.ball.isBallMovingDown() 
-                && this.ball.ballPosition.x >= this.paddle.paddlePosition.x - this.paddle.PADDLE_COLLISION_PADDING
-                && this.ball.ballPosition.x <= this.paddle.paddlePosition.x + this.paddle.paddleWidth + this.paddle.PADDLE_COLLISION_PADDING);
+                && this.ball.ballPosition.x >= this.paddle.position.x - this.paddle.PADDLE_COLLISION_PADDING
+                && this.ball.ballPosition.x <= this.paddle.position.x + this.paddle.paddleWidth + this.paddle.PADDLE_COLLISION_PADDING);
         },
 
         isBallMovingDown: function() {

@@ -22,13 +22,12 @@ define(['paddle', 'ball'], function(paddle, ball) {
             x: 0,
             y: -30
         },
-        paddlePosition: {
+        position: {
             x: 0,
             y: 0
         },
 
         init: function(app) {
-
             this.app = app;
             this.ball = this.app.ball;
             this.ctx = this.app.ctx;
@@ -45,8 +44,7 @@ define(['paddle', 'ball'], function(paddle, ball) {
         },
 
         draw: function() {
-
-            this.paddlePosition = {
+            this.position = {
                 x: this.paddlex + this.PADDLE_POSITION_OFFSET.x,
                 y: this.app.HEIGHT - this.paddleHeight + this.PADDLE_POSITION_OFFSET.y
             };
@@ -58,15 +56,15 @@ define(['paddle', 'ball'], function(paddle, ball) {
                 this.paddlex -= 5;
             }
             this.ctx.fillStyle = this.paddleColour;
-            this.rect(this.paddlePosition.x, this.paddlePosition.y, this.paddleWidth, this.paddleHeight);
+            this.rect(this.position.x, this.position.y, this.paddleWidth, this.paddleHeight);
         },
 
         canPaddleMoveLeft: function() {
-            return (this.paddlePosition.x > 0);
+            return (this.position.x > 0);
         },
 
         canPaddleMoveRight: function() {
-            return (this.paddlePosition.x + this.paddleWidth < this.app.WIDTH);
+            return (this.position.x + this.paddleWidth < this.app.WIDTH);
         },
 
         rect: function(x,y,w,h) {
