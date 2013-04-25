@@ -26,6 +26,15 @@ define(['paddle', 'ball'], function(paddle, ball) {
         nearestCol: 0,
         rowCount: 0,
 
+        /**
+         * Add a little more width to the paddle to make it easier to hit the
+         * ball.
+         *
+         * Padding also give the illusion the side of the ball is hitting the
+         * side of the paddle.
+         */
+        PADDLE_COLLISION_PADDING: 10,
+
         init: function(app) {
 
             // App checks whether the browser supports <canvas> returning
@@ -252,8 +261,8 @@ define(['paddle', 'ball'], function(paddle, ball) {
 
         hasBallHitPaddle: function() {
             return (this.ball.isBallMovingDown() 
-                && this.ball.ballPosition.x >= this.paddle.position.x - this.paddle.PADDLE_COLLISION_PADDING
-                && this.ball.ballPosition.x <= this.paddle.position.x + this.paddle.width + this.paddle.PADDLE_COLLISION_PADDING);
+                && this.ball.ballPosition.x >= this.paddle.position.x - this.PADDLE_COLLISION_PADDING
+                && this.ball.ballPosition.x <= this.paddle.position.x + this.paddle.width + this.PADDLE_COLLISION_PADDING);
         },
 
         isBallMovingDown: function() {

@@ -10,14 +10,6 @@ define(['paddle', 'ball'], function(paddle, ball) {
         width: 110,
         paddlex: 0,
 
-        /**
-         * Add a little more width to the paddle to make it easier to hit the
-         * ball.
-         *
-         * Padding also give the illusion the side of the ball is hitting the
-         * side of the paddle.
-         */
-        PADDLE_COLLISION_PADDING: 10,
         PADDLE_POSITION_OFFSET: {
             x: 0,
             y: -30
