@@ -58,18 +58,11 @@ define([], function() {
             this.tempPosition.x = (this.hasHitLeftWall()) ? this.radius : this.app.WIDTH - this.radius;
         },
 
-        drawBall: function() {
-            this.ctx.fillStyle = this.colour;
-            this.circle(this.position.x, this.position.y, this.radius);
-        },
-
-        draw: function() {
+        updatePosition: function() {
             this.tempPosition = {
                 x: this.position.x + this.velocity.x,
                 y: this.position.y + this.velocity.y
             };
-
-            this.drawBall();
 
             // If the ball has hit the wall
             if (this.hasHitWall()) {
@@ -78,6 +71,12 @@ define([], function() {
             }
 
             this.position = this.tempPosition;
+        },
+
+        draw: function() {
+            this.updatePosition();
+            this.ctx.fillStyle = this.colour;
+            this.circle(this.position.x, this.position.y, this.radius);
         },
 
         circle: function(x,y,r) {
