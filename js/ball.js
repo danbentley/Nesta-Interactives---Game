@@ -4,7 +4,7 @@ define([], function() {
 
         app: null,
         ctx: null,
-        ballRadius: 9,
+        radius: 9,
         ballColour: "#725d3c",
         ballPosition: {
             x: 25,
@@ -30,15 +30,15 @@ define([], function() {
         },
 
         hasBallHitLeftWall: function() {
-            return (this.tempBallPosition.x - this.ballRadius <= 0);
+            return (this.tempBallPosition.x - this.radius <= 0);
         },
 
         hasBallHitRightWall: function() {
-            return (this.tempBallPosition.x + this.ballRadius >= this.app.WIDTH);
+            return (this.tempBallPosition.x + this.radius >= this.app.WIDTH);
         },
 
         hasBallHitTop: function() {
-            return (this.ballPosition.y + this.velocity.y - this.ballRadius < 0);
+            return (this.ballPosition.y + this.velocity.y - this.radius < 0);
         },
 
         isBallMovingDown: function() {
@@ -46,12 +46,12 @@ define([], function() {
         },
 
         correctBallPlacementAfterHittingWall: function() {
-            this.tempBallPosition.x = (this.hasBallHitLeftWall()) ? this.ballRadius : this.app.WIDTH - this.ballRadius;
+            this.tempBallPosition.x = (this.hasBallHitLeftWall()) ? this.radius : this.app.WIDTH - this.radius;
         },
 
         drawBall: function() {
             this.ctx.fillStyle = this.ballColour;
-            this.circle(this.ballPosition.x, this.ballPosition.y, this.ballRadius);
+            this.circle(this.ballPosition.x, this.ballPosition.y, this.radius);
         },
 
         draw: function() {
