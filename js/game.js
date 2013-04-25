@@ -86,13 +86,8 @@ define(['paddle', 'ball'], function(paddle, ball) {
 
             this.paddle.draw();
 
-            if (this.isBallNearPaddle()) {
-                // Ball has hit paddle
-                if (this.hasBallHitPaddle()) {
-                    //move the ball differently based on where it hit the paddle
-                    this.ball.velocity.x = 8 * ((this.ball.position.x - (this.paddle.position.x + this.paddle.width / 2)) / this.paddle.width);
-                    this.ball.bounceUpOrDown();
-                } 
+            if (this.isBallNearPaddle() && this.hasBallHitPaddle()) {
+                this.ballHitPaddle();
             } else if (this.ball.hasHitTop()) {
                 this.ball.bounceUpOrDown();
             }
@@ -281,6 +276,19 @@ define(['paddle', 'ball'], function(paddle, ball) {
              * completely out of site before we declare it out of bounds.
              */
             return (this.ball.tempPosition.y - this.ball.radius > this.app.HEIGHT);
+        },
+
+        /**
+         * The ball doesn't just bounce of the paddle the same as it would the
+         * wall. It needs to alter it's speed depending on where the ball hit
+         * the paddle.
+         *
+         * There's a good argument to say that this method belongs in ball.js
+         * but that would require the ball having knowledge of the paddle.
+         */
+        ballHitPaddle: function() {
+            this.ball.velocity.x = 8 * ((this.ball.position.x - (this.paddle.position.x + this.paddle.width / 2)) / this.paddle.width);
+            this.ball.bounceUpOrDown();
         },
 
         rect: function(x,y,w,h) {
