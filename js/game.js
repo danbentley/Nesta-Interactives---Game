@@ -90,11 +90,11 @@ define(['paddle', 'ball'], function(paddle, ball) {
                 // Ball has hit paddle
                 if (this.hasBallHitPaddle()) {
                     //move the ball differently based on where it hit the paddle
-                    this.ball.ballSpeed.x = 8 * ((this.ball.ballPosition.x - (this.paddle.position.x + this.paddle.width / 2)) / this.paddle.width);
-                    this.ball.ballSpeed.y *= -1;
+                    this.ball.velocity.x = 8 * ((this.ball.ballPosition.x - (this.paddle.position.x + this.paddle.width / 2)) / this.paddle.width);
+                    this.ball.velocity.y *= -1;
                 } 
             } else if (this.ball.hasBallHitTop()) {
-                this.ball.ballSpeed.y *= -1;
+                this.ball.velocity.y *= -1;
             }
 
             this.ball.draw();
@@ -112,7 +112,7 @@ define(['paddle', 'ball'], function(paddle, ball) {
                 x: 25,
                 y: 250,
             };
-            this.ball.ballSpeed = {
+            this.ball.velocity = {
                 x: 1.6,
                 y: -2,
             };
@@ -175,7 +175,7 @@ define(['paddle', 'ball'], function(paddle, ball) {
             this.updateBrickDimensions();
             //reverse the ball and mark the brick as broken
             if (this.hasBallHitNearestBrick()) {
-                this.ball.ballSpeed.y *= -1;
+                this.ball.velocity.y *= -1;
                 this.bricks[this.nearestRow][this.nearestCol] = 0;
                 if (!this.isLastRowActive()) {
                     this.removeLastRow();
@@ -263,10 +263,6 @@ define(['paddle', 'ball'], function(paddle, ball) {
             return (this.ball.isBallMovingDown() 
                 && this.ball.ballPosition.x >= this.paddle.position.x - this.PADDLE_COLLISION_PADDING
                 && this.ball.ballPosition.x <= this.paddle.position.x + this.paddle.width + this.PADDLE_COLLISION_PADDING);
-        },
-
-        isBallMovingDown: function() {
-            return (this.ballSpeed.y > 0);
         },
 
         isBallOutOfBounds: function() {

@@ -10,7 +10,7 @@ define([], function() {
             x: 25,
             y: 250,
         },
-        ballSpeed: {
+        velocity: {
             x: 1.6,
             y: -2,
         },
@@ -38,11 +38,11 @@ define([], function() {
         },
 
         hasBallHitTop: function() {
-            return (this.ballPosition.y + this.ballSpeed.y - this.ballRadius < 0);
+            return (this.ballPosition.y + this.velocity.y - this.ballRadius < 0);
         },
 
         isBallMovingDown: function() {
-            return (this.ballSpeed.y > 0);
+            return (this.velocity.y > 0);
         },
 
         correctBallPlacementAfterHittingWall: function() {
@@ -56,8 +56,8 @@ define([], function() {
 
         draw: function() {
             this.tempBallPosition = {
-                x: this.ballPosition.x + this.ballSpeed.x,
-                y: this.ballPosition.y + this.ballSpeed.y
+                x: this.ballPosition.x + this.velocity.x,
+                y: this.ballPosition.y + this.velocity.y
             };
 
             this.drawBall();
@@ -65,7 +65,7 @@ define([], function() {
             // If the ball has hit the wall
             if (this.hasBallHitWall()) {
                 this.correctBallPlacementAfterHittingWall();
-                this.ballSpeed.x *= -1;
+                this.velocity.x *= -1;
             }
 
             this.ballPosition = this.tempBallPosition;
