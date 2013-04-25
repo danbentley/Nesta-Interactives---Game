@@ -1,8 +1,10 @@
-define(['app'], function() {
+define(['paddle', 'ball'], function(paddle, ball) {
 
     return {
 
         app: null,
+        paddle: null,
+        ball: null,
         ctx: null,
         ROW_COUNT: 3,
         MAX_ROW_COUNT: 8,
@@ -69,6 +71,13 @@ define(['app'], function() {
             this.app.init();
 
             this.ctx = this.app.ctx;
+
+            this.ball = ball;
+            this.ball.init(this.app);
+
+            this.paddle = paddle;
+            this.paddle.init(this.app);
+
             this.BRICKWIDTH = (this.app.WIDTH / this.COL_COUNT) - this.PADDING;
             this.initPaddle();
             this.initBricks();
@@ -92,10 +101,12 @@ define(['app'], function() {
                 this.reset();
             }, this));
 
+            /*
             $(window).on('mouse.moved', $.proxy(function(e, x, y) {
                 this.paddlex = Math.max(x - this.app.canvasMinX - (this.paddleWidth / 2), 0);
                 this.paddlex = Math.min(this.app.WIDTH - this.paddleWidth, this.paddlex);
             }, this));
+            */
         },
 
         startDrawInterval: function() {
@@ -113,6 +124,23 @@ define(['app'], function() {
                 y: this.app.HEIGHT - this.paddleHeight + this.PADDLE_POSITION_OFFSET.y
             };
 
+            this.paddle.draw();
+            if (this.isBallNearPaddle()) {
+                // Ball has hit paddle
+                if (this.hasBallHitPaddle()) {
+                    //move the ball differently based on where it hit the paddle
+                    this.ball.ballSpeed.x = 8 * ((this.ball.ballPosition.x - (this.paddle.paddlex + this.paddle.paddleWidth / 2)) / this.paddle.paddleWidth);
+                    this.ball.ballSpeed.y *= -1;
+                } 
+            } else if (this.hasBallHitTop()) {
+                this.ball.ballSpeed.y *= -1;
+            }
+
+            this.ball.draw();
+            this.updateBricks();
+            this.drawBricks();
+
+            /*
             this.tempBallPosition = {
                 x: this.ballPosition.x + this.ballSpeed.x,
                 y: this.ballPosition.y + this.ballSpeed.y
@@ -146,6 +174,7 @@ define(['app'], function() {
             }
 
             this.ballPosition = this.tempBallPosition;
+            */
         },
 
         restart: function() {
@@ -220,7 +249,7 @@ define(['app'], function() {
             this.updateBrickDimensions();
             //reverse the ball and mark the brick as broken
             if (this.hasBallHitNearestBrick()) {
-                this.ballSpeed.y *= -1;
+                this.ball.ballSpeed.y *= -1;
                 this.bricks[this.nearestRow][this.nearestCol] = 0;
                 if (!this.isLastRowActive()) {
                     this.removeLastRow();
@@ -232,8 +261,8 @@ define(['app'], function() {
         updateBrickDimensions: function() {
             this.rowHeight = this.BRICKHEIGHT + this.PADDING;
             this.colWidth = this.BRICKWIDTH + this.PADDING;
-            this.nearestRow = Math.floor(this.ballPosition.y / this.rowHeight);
-            this.nearestCol = Math.floor(this.ballPosition.x / this.colWidth);
+            this.nearestRow = Math.floor(this.ball.ballPosition.y / this.rowHeight);
+            this.nearestCol = Math.floor(this.ball.ballPosition.x / this.colWidth);
             this.rowCount = this.bricks.length;
             this.bricksHeight = this.rowCount * this.rowHeight;
         },
@@ -304,7 +333,7 @@ define(['app'], function() {
          *
          */
         isBallNearBricks: function() {
-            return (this.ballPosition.y < this.bricksHeight);
+            return (this.ball.ballPosition.y < this.bricksHeight);
         },
 
         isBallWithinCollisionArea: function() {
@@ -330,8 +359,8 @@ define(['app'], function() {
          * or whether it's too late/early
          */
         isBallNearPaddle: function() {
-            var bottomOfBall = this.tempBallPosition.y + this.ballRadius;
-            var topOfPaddle = this.app.HEIGHT - this.paddleHeight + this.PADDLE_POSITION_OFFSET.y;
+            var bottomOfBall = this.ball.tempBallPosition.y + this.ball.ballRadius;
+            var topOfPaddle = this.app.HEIGHT - this.paddle.paddleHeight + this.paddle.PADDLE_POSITION_OFFSET.y;
             return (bottomOfBall >= topOfPaddle && !this.isBallInGutter());
         },
 
@@ -340,15 +369,15 @@ define(['app'], function() {
          * technically in play but cannot be hit.
          */
         isBallInGutter: function() {
-            var gutterHeight = this.app.HEIGHT + this.PADDLE_POSITION_OFFSET.y;
-            var bottomOfBall = this.tempBallPosition.y + this.ballRadius;
+            var gutterHeight = this.app.HEIGHT + this.paddle.PADDLE_POSITION_OFFSET.y;
+            var bottomOfBall = this.ball.tempBallPosition.y + this.ball.ballRadius;
             return (bottomOfBall >= gutterHeight);
         },
 
         hasBallHitPaddle: function() {
-            return (this.isBallMovingDown() 
-                && this.ballPosition.x >= this.paddlePosition.x - this.PADDLE_COLLISION_PADDING
-                && this.ballPosition.x <= this.paddlePosition.x + this.paddleWidth + this.PADDLE_COLLISION_PADDING);
+            return (this.ball.isBallMovingDown() 
+                && this.ball.ballPosition.x >= this.paddle.paddlePosition.x - this.paddle.PADDLE_COLLISION_PADDING
+                && this.ball.ballPosition.x <= this.paddle.paddlePosition.x + this.paddle.paddleWidth + this.paddle.PADDLE_COLLISION_PADDING);
         },
 
         isBallMovingDown: function() {
@@ -365,13 +394,6 @@ define(['app'], function() {
 
         correctBallPlacementAfterHittingWall: function() {
             this.tempBallPosition.x = (this.hasBallHitLeftWall()) ? this.ballRadius : this.app.WIDTH - this.ballRadius;
-        },
-
-        circle: function(x,y,r) {
-            this.ctx.beginPath();
-            this.ctx.arc(x, y, r, 0, Math.PI * 2, true);
-            this.ctx.closePath();
-            this.ctx.fill();
         },
 
         rect: function(x,y,w,h) {
