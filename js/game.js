@@ -91,10 +91,10 @@ define(['paddle', 'ball'], function(paddle, ball) {
                 if (this.hasBallHitPaddle()) {
                     //move the ball differently based on where it hit the paddle
                     this.ball.velocity.x = 8 * ((this.ball.position.x - (this.paddle.position.x + this.paddle.width / 2)) / this.paddle.width);
-                    this.ball.velocity.y *= -1;
+                    this.ball.bounceUpOrDown();
                 } 
             } else if (this.ball.hasHitTop()) {
-                this.ball.velocity.y *= -1;
+                this.ball.bounceUpOrDown();
             }
 
             this.ball.draw();
@@ -175,7 +175,7 @@ define(['paddle', 'ball'], function(paddle, ball) {
             this.updateBrickDimensions();
             //reverse the ball and mark the brick as broken
             if (this.hasBallHitNearestBrick()) {
-                this.ball.velocity.y *= -1;
+                this.ball.bounceUpOrDown();
                 this.bricks[this.nearestRow][this.nearestCol] = 0;
                 if (!this.isLastRowActive()) {
                     this.removeLastRow();

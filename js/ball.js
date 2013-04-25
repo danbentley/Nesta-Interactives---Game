@@ -45,6 +45,15 @@ define([], function() {
             return (this.velocity.y > 0);
         },
 
+        /**
+         * called when the ball hits some above. Whether it's bricks or the
+         * wall
+         *
+         */
+        bounceUpOrDown: function() {
+            this.velocity.y *= -1;
+        },
+
         correctBallPlacementAfterHittingWall: function() {
             this.tempPosition.x = (this.hasHitLeftWall()) ? this.radius : this.app.WIDTH - this.radius;
         },
