@@ -90,7 +90,7 @@ define(['paddle', 'ball'], function(paddle, ball) {
                 // Ball has hit paddle
                 if (this.hasBallHitPaddle()) {
                     //move the ball differently based on where it hit the paddle
-                    this.ball.ballSpeed.x = 8 * ((this.ball.ballPosition.x - (this.paddle.paddlex + this.paddle.width / 2)) / this.paddle.width);
+                    this.ball.ballSpeed.x = 8 * ((this.ball.ballPosition.x - (this.paddle.position.x + this.paddle.width / 2)) / this.paddle.width);
                     this.ball.ballSpeed.y *= -1;
                 } 
             } else if (this.ball.hasBallHitTop()) {
@@ -245,7 +245,7 @@ define(['paddle', 'ball'], function(paddle, ball) {
          */
         isBallNearPaddle: function() {
             var bottomOfBall = this.ball.tempBallPosition.y + this.ball.ballRadius;
-            var topOfPaddle = this.app.HEIGHT - this.paddle.height + this.paddle.PADDLE_POSITION_OFFSET.y;
+            var topOfPaddle = this.paddle.position.y;
             return (bottomOfBall >= topOfPaddle && !this.isBallInGutter());
         },
 
@@ -254,9 +254,9 @@ define(['paddle', 'ball'], function(paddle, ball) {
          * technically in play but cannot be hit.
          */
         isBallInGutter: function() {
-            var gutterHeight = this.app.HEIGHT + this.paddle.PADDLE_POSITION_OFFSET.y;
+            var bottomOfPaddle = this.paddle.height + this.paddle.position.y;
             var bottomOfBall = this.ball.tempBallPosition.y + this.ball.ballRadius;
-            return (bottomOfBall >= gutterHeight);
+            return (bottomOfBall >= bottomOfPaddle);
         },
 
         hasBallHitPaddle: function() {
