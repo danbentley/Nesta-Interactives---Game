@@ -1,4 +1,4 @@
-define(['lib/array.shuffle'], function() {
+define(['jquery', 'lib/array.shuffle'], function() {
 
     return {
 

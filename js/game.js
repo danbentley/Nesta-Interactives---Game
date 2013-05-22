@@ -1,4 +1,4 @@
-define(['paddle', 'ball'], function(paddle, ball) {
+define(['jquery', 'paddle', 'ball'], function($, paddle, ball) {
 
     return {
 
