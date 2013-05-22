@@ -76,7 +76,7 @@ define(['jquery', 'paddle', 'ball', 'lib/request-animation-polyfill'], function(
 
         startDrawInterval: function() {
             ($.proxy(function animationLoop() {
-                window.requestAnimationFrame($.proxy(animationLoop, this));
+                this.drawIntervalId = window.requestAnimationFrame($.proxy(animationLoop, this));
                 this.draw();
             }, this))();
         },
