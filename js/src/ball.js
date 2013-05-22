@@ -6,18 +6,24 @@ define([], function() {
         ctx: null,
         radius: 9,
         colour: "#725d3c",
-        position: {
-            x: 25,
-            y: 250,
-        },
-        velocity: {
-            x: 1.6,
-            y: -2,
-        },
+        position: {},
+        velocity: {},
 
         init: function(app) {
             this.app = app;
             this.ctx = this.app.ctx;
+            this.restart();
+        },
+
+        restart: function() {
+            this.position = {
+                x: 25,
+                y: 250,
+            };
+            this.velocity = {
+                x: 8,
+                y: -8,
+            };
         },
 
         hasHitWall: function() {
