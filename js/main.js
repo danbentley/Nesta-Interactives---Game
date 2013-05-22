@@ -1,6 +1,10 @@
 require.config({
     paths: {
-        'jquery': 'lib/jquery.min'
+        'jquery': 'lib/jquery.min',
+        'app': 'src/app',
+        'game': 'src/game',
+        'ball': 'src/ball',
+        'paddle': 'src/paddle'
     }
 });
 
