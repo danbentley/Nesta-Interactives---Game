@@ -16,6 +16,13 @@ define(['jquery', 'paddle', 'ball', 'game'], function($, paddle, ball, game) {
             this.$canvas = $('#canvas');
 
             this.addListeners();
+            this.updateDefaultValues();
+        },
+
+        updateDefaultValues: function() {
+            this.$paddleWidth.val(paddle.width);
+            this.$ballRadius.val(ball.radius);
+            this.$ballSpeed.val(Math.abs(ball.velocity.x));
         },
 
         addListeners: function() {
@@ -24,7 +31,7 @@ define(['jquery', 'paddle', 'ball', 'game'], function($, paddle, ball, game) {
             });
 
             this.$ballRadius.on('change', function(e) {
-                ball.radius = $(this).val() / 10;
+                ball.radius = +$(this).val();
             });
 
             this.$ballSpeed.on('change', function(e) {
