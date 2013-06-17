@@ -25,6 +25,7 @@ define(['jquery', 'paddle', 'ball', 'lib/request-animation-polyfill'], function(
         nearestRow: 0,
         nearestCol: 0,
         rowCount: 0,
+        isPaused: false,
 
         /**
          * Add a little more width to the paddle to make it easier to hit the
@@ -105,6 +106,26 @@ define(['jquery', 'paddle', 'ball', 'lib/request-animation-polyfill'], function(
 
         restart: function() {
             this.ball.restart();
+        },
+
+        pause: function() {
+            if (this.isPaused) {
+                this.resume();
+            } else {
+                this.stop();
+            }
+        },
+
+        resume: function() {
+            ball.resume();
+            this.startAddRowInterval();
+            this.isPaused = false;
+        },
+
+        stop: function() {
+            ball.stop();
+            window.clearInterval(this.addRowIntervalId);
+            this.isPaused = true;
         },
 
         initBricks: function() {

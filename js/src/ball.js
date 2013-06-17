@@ -9,6 +9,11 @@ define([], function() {
         position: {},
         velocity: {},
 
+        /**
+         * Variable to store the velocity of the ball before pausing.
+         */
+        savedVelocity: {},
+
         init: function(app) {
             this.app = app;
             this.ctx = this.app.ctx;
@@ -24,6 +29,18 @@ define([], function() {
                 x: 8,
                 y: -8,
             };
+        },
+
+        stop: function() {
+            this.savedVelocity = this.velocity;
+            this.velocity = {
+                x: 0,
+                y: 0
+            };
+        },
+
+        resume: function() {
+            this.velocity = this.savedVelocity;
         },
 
         hasHitWall: function() {
