@@ -9,6 +9,11 @@ define([], function() {
         position: {},
         velocity: {},
 
+        startingVelocity: {
+            x: 8,
+            y: -8
+        },
+
         /**
          * Variable to store the velocity of the ball before pausing.
          */
@@ -25,10 +30,7 @@ define([], function() {
                 x: 25,
                 y: 250,
             };
-            this.velocity = {
-                x: 8,
-                y: -8,
-            };
+            this.velocity = $.extend({}, this.startingVelocity);
         },
 
         stop: function() {

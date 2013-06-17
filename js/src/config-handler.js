@@ -8,6 +8,7 @@ define(['jquery', 'paddle', 'ball', 'game'], function($, paddle, ball, game) {
         $ballRadius: null,
         $ballSpeed: null,
         $canvas: null,
+        currentBallSpeedFactor: 1,
 
         init: function() {
             this.$paddleWidth = $('#paddle-width');
@@ -22,7 +23,7 @@ define(['jquery', 'paddle', 'ball', 'game'], function($, paddle, ball, game) {
         updateDefaultValues: function() {
             this.$paddleWidth.val(paddle.width);
             this.$ballRadius.val(ball.radius);
-            this.$ballSpeed.val(Math.abs(ball.velocity.x));
+            this.$ballSpeed.val(100);
         },
 
         addListeners: function() {
@@ -34,11 +35,21 @@ define(['jquery', 'paddle', 'ball', 'game'], function($, paddle, ball, game) {
                 ball.radius = +$(this).val();
             });
 
-            this.$ballSpeed.on('change', function(e) {
+            this.$ballSpeed.on('change', $.proxy(function(e) {
+
+                var ballSpeedFactor = (+this.$ballSpeed.val() / 100);
+
+                var currentVelocity = (game.isPaused) ? ball.savedVelocity : ball.velocity;
                 var newVelocity = {
-                    x: +$(this).val(),
-                    y: $(this).val() * -1
+                    x: currentVelocity.x / this.currentBallSpeedFactor * ballSpeedFactor,
+                    y: currentVelocity.y / this.currentBallSpeedFactor * ballSpeedFactor
                 };
+                ball.startingVelocity = {
+                    x: ball.startingVelocity.x / this.currentBallSpeedFactor * ballSpeedFactor,
+                    y: ball.startingVelocity.y / this.currentBallSpeedFactor * ballSpeedFactor
+                };
+
+                this.currentBallSpeedFactor = ballSpeedFactor;
 
                 /**
                  * Prevent changing the ball speed from unpausing the game
@@ -50,7 +61,7 @@ define(['jquery', 'paddle', 'ball', 'game'], function($, paddle, ball, game) {
                 } else {
                     ball.velocity = newVelocity;
                 }
-            });
+            }, this));
 
             this.$canvas.on('click', function(e) {
                 game.pause();
