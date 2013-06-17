@@ -30,6 +30,18 @@ define(['jquery', 'paddle', 'ball'], function($, paddle, ball) {
             }, this));
         },
 
+        removeListeners: function() {
+            $(window).off('mouse.moved');
+        },
+
+        stop: function() {
+            this.removeListeners();
+        },
+
+        resume: function() {
+            this.addListeners();
+        },
+
         draw: function() {
             // Move paddle
             if (this.app.rightDown && this.canPaddleMoveRight()) {

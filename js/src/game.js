@@ -118,12 +118,14 @@ define(['jquery', 'paddle', 'ball', 'lib/request-animation-polyfill'], function(
 
         resume: function() {
             ball.resume();
+            paddle.resume();
             this.startAddRowInterval();
             this.isPaused = false;
         },
 
         stop: function() {
             ball.stop();
+            paddle.stop();
             window.clearInterval(this.addRowIntervalId);
             this.isPaused = true;
         },
