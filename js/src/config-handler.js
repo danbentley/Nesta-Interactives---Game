@@ -4,20 +4,30 @@ define(['jquery', 'paddle', 'ball', 'game'], function($, paddle, ball, game) {
 
     var configHandler = {
 
+        $paddleWidth: null,
+        $ballRadius: null,
+        $ballSpeed: null,
+        $canvas: null,
+
         init: function() {
+            this.$paddleWidth = $('#paddle-width');
+            this.$ballRadius = $('#ball-radius');
+            this.$ballSpeed = $('#ball-speed');
+            this.$canvas = $('#canvas');
+
             this.addListeners();
         },
 
         addListeners: function() {
-            $('#paddle-width').on('change', function(e) {
+            this.$paddleWidth.on('change', function(e) {
                 paddle.width = $(this).val();
             });
 
-            $('#ball-radius').on('change', function(e) {
+            this.$ballRadius.on('change', function(e) {
                 ball.radius = $(this).val() / 10;
             });
 
-            $('#ball-speed').on('change', function(e) {
+            this.$ballSpeed.on('change', function(e) {
                 var newVelocity = {
                     x: +$(this).val(),
                     y: $(this).val() * -1
@@ -35,7 +45,7 @@ define(['jquery', 'paddle', 'ball', 'game'], function($, paddle, ball, game) {
                 }
             });
 
-            $('#canvas').on('click', function(e) {
+            this.$canvas.on('click', function(e) {
                 game.pause();
             });
         }
