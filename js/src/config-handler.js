@@ -38,12 +38,13 @@ define(['jquery', 'paddle', 'ball', 'game'], function($, paddle, ball, game) {
             this.$ballSpeed.on('change', $.proxy(function(e) {
 
                 var ballSpeedFactor = (+this.$ballSpeed.val() / 100);
-
                 var currentVelocity = (game.isPaused) ? ball.savedVelocity : ball.velocity;
+
                 var newVelocity = {
                     x: currentVelocity.x / this.currentBallSpeedFactor * ballSpeedFactor,
                     y: currentVelocity.y / this.currentBallSpeedFactor * ballSpeedFactor
                 };
+
                 ball.startingVelocity = {
                     x: ball.startingVelocity.x / this.currentBallSpeedFactor * ballSpeedFactor,
                     y: ball.startingVelocity.y / this.currentBallSpeedFactor * ballSpeedFactor
@@ -61,6 +62,7 @@ define(['jquery', 'paddle', 'ball', 'game'], function($, paddle, ball, game) {
                 } else {
                     ball.velocity = newVelocity;
                 }
+
             }, this));
 
             this.$canvas.on('click', function(e) {
