@@ -11,4 +11,7 @@ require.config({
 
 require(['app', 'game', 'config-handler'], function(app, game, configHandler) {
     game.init(app);
+    $(document).ready(function() {
+        configHandler.init();
+    });
 });
