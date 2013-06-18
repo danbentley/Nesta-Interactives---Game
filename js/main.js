@@ -5,8 +5,13 @@ require.config({
         'game': 'src/game',
         'ball': 'src/ball',
         'paddle': 'src/paddle',
-        'config-handler': 'src/config-handler'
+        'config-handler': 'src/config-handler',
+        'slider': 'lib/jquery-ui-1.10.3-custom.min'
+    }, 
+    shim: {
+        'slider': ['jquery']
     }
+
 });
 
 require(['app', 'game', 'config-handler'], function(app, game, configHandler) {
@@ -14,4 +19,7 @@ require(['app', 'game', 'config-handler'], function(app, game, configHandler) {
     $(document).ready(function() {
         configHandler.init();
     });
+});
+
+require(['lib/jquery-ui-slider-range-polyfill'], function() {
 });
