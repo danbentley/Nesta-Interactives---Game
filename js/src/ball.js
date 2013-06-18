@@ -6,18 +6,43 @@ define([], function() {
         ctx: null,
         radius: 9,
         colour: "#725d3c",
-        position: {
-            x: 25,
-            y: 250,
+        position: {},
+        velocity: {},
+
+        startingVelocity: {
+            x: 8,
+            y: -8
         },
-        velocity: {
-            x: 1.6,
-            y: -2,
-        },
+
+        /**
+         * Variable to store the velocity of the ball before pausing.
+         */
+        savedVelocity: {},
 
         init: function(app) {
             this.app = app;
             this.ctx = this.app.ctx;
+            this.restart();
+        },
+
+        restart: function() {
+            this.position = {
+                x: 25,
+                y: 250,
+            };
+            this.velocity = $.extend({}, this.startingVelocity);
+        },
+
+        stop: function() {
+            this.savedVelocity = this.velocity;
+            this.velocity = {
+                x: 0,
+                y: 0
+            };
+        },
+
+        resume: function() {
+            this.velocity = this.savedVelocity;
         },
 
         hasHitWall: function() {

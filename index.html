@@ -4,6 +4,7 @@
 	<head>
 		<title>Brickout</title>
 		<link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8">
+		<link rel="stylesheet" href="css/jquery-ui.css" type="text/css" media="screen" charset="utf-8">
 	</head>
 	<body>
 		
@@ -46,6 +47,28 @@
 					
 					<p>If the ball passes you by three times, it’s game over!</p>
 				</div>
+
+				<form action="#">
+
+
+					<label for="paddle-width">
+						Paddle Width
+					</label>
+					<input id="paddle-width" type="range" min="50" max="200" />
+					<br />
+
+					<label for="ball-radius">
+						Ball radius
+					</label>
+					<input id="ball-radius" type="range" min="1" max="17" />
+					<br />
+
+					<label for="ball-speed">
+						Ball speed
+					</label>
+					<input id="ball-speed" type="range" min="50" max="150" />
+					<br />
+				</form>
 				
 				<div class="preload-text-sprites">
 					<div class="blue"></div>

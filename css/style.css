@@ -314,4 +314,35 @@ h3 {
 }
 
 
+label {
+	margin-left: 20px;
+}
 
+label, input, .ui-slider {
+	width: 110px;
+	float: left;
+}
+
+.ui-slider {
+	float: left;
+	margin-top: 7px;
+	width: 70px;
+}
+
+.ui-slider-horizontal {
+	height: 0.3em !important;
+}
+
+.ui-slider-handle {
+	height: 0.5em !important;
+	width: 0.5em !important;
+	margin-left: -0.4em !important;
+	top: -0.2em !important;
+}
+
+.accessibility {
+	margin-left: 999px;
+	position: absolute;
+	height: 1px;
+	width: 1px;
+}

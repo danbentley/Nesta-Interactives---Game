@@ -1,4 +1,4 @@
-define(['jquery', 'paddle', 'ball'], function($, paddle, ball) {
+define(['jquery', 'paddle', 'ball', 'lib/request-animation-polyfill'], function($, paddle, ball) {
 
     return {
 
@@ -25,6 +25,7 @@ define(['jquery', 'paddle', 'ball'], function($, paddle, ball) {
         nearestRow: 0,
         nearestCol: 0,
         rowCount: 0,
+        isPaused: false,
 
         /**
          * Add a little more width to the paddle to make it easier to hit the
@@ -66,7 +67,7 @@ define(['jquery', 'paddle', 'ball'], function($, paddle, ball) {
 
         addListeners: function() {
             $(window).on('game.over', $.proxy(function() {
-                clearInterval(this.drawIntervalId);
+                window.cancelAnimationFrame(this.drawIntervalId);
             }, this));
 
             $(window).on('game.reset', $.proxy(function() {
@@ -75,9 +76,10 @@ define(['jquery', 'paddle', 'ball'], function($, paddle, ball) {
         },
 
         startDrawInterval: function() {
-            this.drawIntervalId = window.setInterval($.proxy(function() {
+            ($.proxy(function animationLoop() {
+                this.drawIntervalId = window.requestAnimationFrame($.proxy(animationLoop, this));
                 this.draw();
-            }, this), this.DRAW_INTERVAL_DELAY);
+            }, this))();
         },
 
         draw: function() {
@@ -103,14 +105,29 @@ define(['jquery', 'paddle', 'ball'], function($, paddle, ball) {
         },
 
         restart: function() {
-            this.ball.position = {
-                x: 25,
-                y: 250,
-            };
-            this.ball.velocity = {
-                x: 1.6,
-                y: -2,
-            };
+            this.ball.restart();
+        },
+
+        pause: function() {
+            if (this.isPaused) {
+                this.resume();
+            } else {
+                this.stop();
+            }
+        },
+
+        resume: function() {
+            ball.resume();
+            paddle.resume();
+            this.startAddRowInterval();
+            this.isPaused = false;
+        },
+
+        stop: function() {
+            ball.stop();
+            paddle.stop();
+            window.clearInterval(this.addRowIntervalId);
+            this.isPaused = true;
         },
 
         initBricks: function() {
@@ -287,7 +304,7 @@ define(['jquery', 'paddle', 'ball'], function($, paddle, ball) {
          * but that would require the ball having knowledge of the paddle.
          */
         ballHitPaddle: function() {
-            this.ball.velocity.x = 8 * ((this.ball.position.x - (this.paddle.position.x + this.paddle.width / 2)) / this.paddle.width);
+            this.ball.velocity.x = 20 * ((this.ball.position.x - (this.paddle.position.x + this.paddle.width / 2)) / this.paddle.width);
             this.ball.bounceUpOrDown();
         },
 
