@@ -313,19 +313,25 @@ h3 {
 	display: block;
 }
 
-
-label {
-	margin-left: 20px;
+label, input {
+	width: 105px;
+	float: left;
 }
 
-label, input, .ui-slider {
-	width: 110px;
-	float: left;
+.accessibility {
+	margin-left: 999px;
+	position: absolute;
+	height: 1px;
+	width: 1px;
+}
+
+.form-row {
+	clear:both;
 }
 
 .ui-slider {
 	float: left;
-	margin-top: 7px;
+	margin-top: 5px;
 	width: 70px;
 }
 
@@ -337,12 +343,6 @@ label, input, .ui-slider {
 	height: 0.5em !important;
 	width: 0.5em !important;
 	margin-left: -0.4em !important;
-	top: -0.2em !important;
+	top: -0.175em !important;
 }
 
-.accessibility {
-	margin-left: 999px;
-	position: absolute;
-	height: 1px;
-	width: 1px;
-}
