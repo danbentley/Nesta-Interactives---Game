@@ -65,9 +65,6 @@ define(['jquery', 'paddle', 'ball', 'game'], function($, paddle, ball, game) {
 
             }, this));
 
-            this.$canvas.on('click', function(e) {
-                game.pause();
-            });
         }
     }
 
