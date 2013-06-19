@@ -63,7 +63,7 @@ body {
 
 p, .instructions p {
 	font: normal 0.95em/1.5 'MuseoSlab500', Helvetica, Sans-serif;
-	margin: 0 0 1.5em;
+	margin: 0 0 0.9em;
 }
 
 h3 {
@@ -178,7 +178,7 @@ h3 {
 	display:block;
 }
 
-.end-screen {
+.pause-screen, .end-screen {
 	display:none;
 	position: absolute;
 	top: 0;
@@ -189,11 +189,24 @@ h3 {
 	background: rgba(244,240,237,0.95);
 }
 
-.end-screen h3 {
+.pause-screen, .end-screen h3 {
 	text-align: center;
 	color: #656565;
 	margin-top: 49px;
 	margin-bottom: 21px;
+}
+
+/* PAUSE SCREEN */
+.paused .pause-screen {
+	display:block;
+}
+
+.pause-screen {
+	background: none;
+}
+
+.pause-screen {
+	margin-top: 110px;
 }
 
 

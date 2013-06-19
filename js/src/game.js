@@ -73,6 +73,10 @@ define(['jquery', 'paddle', 'ball', 'lib/request-animation-polyfill'], function(
             $(window).on('game.reset', $.proxy(function() {
                 this.reset();
             }, this));
+
+            $('#canvas, .pause-screen').on('click', $.proxy(function(e) {
+                this.pause();
+            }, this));
         },
 
         startDrawInterval: function() {
@@ -109,6 +113,7 @@ define(['jquery', 'paddle', 'ball', 'lib/request-animation-polyfill'], function(
         },
 
         pause: function() {
+            this.app.$game.toggleClass('paused');
             if (this.isPaused) {
                 this.resume();
             } else {
