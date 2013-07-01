@@ -422,6 +422,11 @@ label, input {
 	height: 1px;
 	width: 1px;
 	left: -900em;
+	
+	-webkit-transition: all 0 !important;
+	-moz-transition: all 0 !important;
+	-ms-transition: all 0 !important;
+	-transition: all 0 !important;
 }
 
 .no-highlight {
