@@ -36,7 +36,7 @@
 					<a href="#" id="play-again" class="button">Play again</a>
 				</div>
 
-				<div class="pause-screen">
+				<div class="pause-screen no-highlight">
 					<h3>Paused</h3>
 				</div>
 
@@ -54,28 +54,33 @@
 					<p>Click in the game area to pause.</p>
 				</div>
 
-				<form action="#">
-					<div class="form-row">
-						<label for="paddle-width">
-							Paddle Width
-						</label>
-						<input id="paddle-width" type="range" min="50" max="200" />
-					</div>
-
-					<div class="form-row">
-						<label for="ball-radius">
-							Ball radius
-						</label>
-						<input id="ball-radius" type="range" min="1" max="17" />
-					</div>
-
-					<div class="form-row">
-						<label for="ball-speed">
-							Ball speed
-						</label>
-						<input id="ball-speed" type="range" min="50" max="150" />
-					</div>
-				</form>
+				<div class="tweak-twiddle">
+					
+					<h3>Tweak &amp; twiddle</h3>
+				
+					<form action="#">
+						<div class="form-row">
+							<label for="paddle-width">
+								Paddle Width
+							</label>
+							<input id="paddle-width" type="range" min="50" max="200" />
+						</div>
+	
+						<div class="form-row">
+							<label for="ball-radius">
+								Ball radius
+							</label>
+							<input id="ball-radius" type="range" min="1" max="17" />
+						</div>
+	
+						<div class="form-row">
+							<label for="ball-speed">
+								Ball speed
+							</label>
+							<input id="ball-speed" type="range" min="50" max="150" />
+						</div>
+					</form>
+				</div>
 				
 				<div class="preload-text-sprites">
 					<div class="blue"></div>
@@ -87,6 +92,6 @@
 			</div>
 		
 		</div>
-		<script data-main="js/main" src="js/lib/require.js"></script>
+		<script data-main="js/main-built" src="js/lib/require.js"></script>
 	</body>
 </html>
