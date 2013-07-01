@@ -28,11 +28,11 @@ define(['jquery', 'paddle', 'ball', 'game'], function($, paddle, ball, game) {
 
         addListeners: function() {
             this.$paddleWidth.on('change', function(e) {
-                paddle.width = $(this).val();
+                paddle.width = parseInt($(this).val());
             });
 
             this.$ballRadius.on('change', function(e) {
-                ball.radius = +$(this).val();
+                ball.radius = parseInt($(this).val());
             });
 
             this.$ballSpeed.on('change', $.proxy(function(e) {
