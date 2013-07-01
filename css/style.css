@@ -86,6 +86,14 @@ h3 {
 	width:225px;
 	border-top:1px solid #d1cdc2;
 }
+
+.instructions .tweak-twiddle * {
+	-webkit-transition: all 0 !important;
+	-moz-transition: all 0 !important;
+	-ms-transition: all 0 !important;
+	transition: all 0 !important;
+}
+
 .tweak-twiddle h3 {
 	font: normal 1em/1.4 'MuseoSlab500', Helvetica, Sans-serif;
 	margin: 10px 0 0.5em;
@@ -422,11 +430,6 @@ label, input {
 	height: 1px;
 	width: 1px;
 	left: -900em;
-	
-	-webkit-transition: all 0 !important;
-	-moz-transition: all 0 !important;
-	-ms-transition: all 0 !important;
-	-transition: all 0 !important;
 }
 
 .no-highlight {
